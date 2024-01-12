@@ -1,4 +1,4 @@
-insert_block_tab <- \(title, input, output, session){
+insert_block_tab <- \(title, input, output, session, locked){
   id <- string_to_id(title)
   grid_id <- sprintf("%sGrid", id)
 
@@ -79,7 +79,7 @@ insert_block_tab <- \(title, input, output, session){
       print(input[[sprintf("%s_config", grid_id)]])
       set_masonry(
         id,
-        setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+        stats::setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
       )
     })
   })

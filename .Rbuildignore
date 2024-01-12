@@ -7,3 +7,13 @@ $run_dev.*
 ^.here$
 ^app\.R$
 ^rsconnect$
+^srcjs$
+^node_modules$
+^package\.json$
+^package-lock\.json$
+^webpack\.dev\.js$
+^webpack\.prod\.js$
+^webpack\.common\.js$
+^LICENSE\.md$
+^makefile$
+^\.eslintrc\.js$

@@ -38,7 +38,7 @@ restore_custom <- \(conf, input, output, session){
         print(input[[sprintf("%s_config", grid_id)]])
         set_masonry(
           tab$id, 
-          setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+          stats::setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
         )
       })
     })

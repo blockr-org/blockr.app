@@ -15,12 +15,12 @@ app_ui <- function(request) {
         id = "first",
         h1("title"),
         h2("subtitle"),
-        textInput("title", "Tab title"),
-        actionButton("add", "Add tab")
+        uiOutput("lockButton")
       ),
       title = "blockr.save",
       id = "nav",
       header = list(
+        useBlockr(),
         blockr.ui::dependency("stack"),
         blockr.ui::dependency("register"),
         masonry::masonryDependencies()

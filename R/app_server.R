@@ -7,15 +7,47 @@
 app_server <- function(input, output, session) {
   set_tab_id("nav")
 
-  observeEvent(input$add, {
-    if(input$title == ""){
-      showNotification("Please enter a title", type = "warning")
-      return()
-    }
-    insert_block_tab(input$title, input, output, session)
+  locked <- reactiveVal(FALSE)
+  observeEvent(input$addTab, {
+    insert_block_tab(input$addTab, input, output, session, locked)
     updateTabsetPanel(
       inputId = "nav",
-      selected = string_to_id(input$title)
+      selected = string_to_id(input$addTab)
     )
+  })
+
+  output$lockButton <- renderUI({
+    if (locked()) return("")
+    actionButton("lock", "lock")
+  })
+
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+
+    if(is.null(query$locked))
+      return()
+    
+    locked(TRUE)
+  })
+
+  observeEvent(input$lock, {
+    print("block")
+  })
+
+  observeEvent(input$lock, {
+    query <- parseQueryString(session$clientData$url_search)
+    query$locked <- "true"
+    query <- paste0(names(query), "=", query, collapse = "&")
+    updateQueryString(paste0("?", query))
+    locked(TRUE)
+  })
+
+  observeEvent(locked(), {
+    if(locked()){
+      lock()
+      return()
+    }
+
+    unlock()
   })
 }
