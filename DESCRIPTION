@@ -1,12 +1,15 @@
 Package: blockr.app
-Title: An Amazing Shiny App
+Title: Template 'Shiny' Application
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
-           role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
+    c(person(given = "John",
+             family = "Coene",
+             role = c("cre", "aut"),
+             email = "john@opifex.org"),
+      person(family = "Bristol Myers Squibb",
+           role = c("cph", "fnd"))
+    )
+Description: Template 'Shiny' application for the 'blockr' package.
 License: GPL (>= 3)
 Imports: 
   config (>= 0.3.1),
