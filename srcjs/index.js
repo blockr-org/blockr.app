@@ -1,4 +1,7 @@
+let locked = false;
 const lockDash = () => {
+  if(!locked) return;
+
   const $layouts = $(".bslib-sidebar-layout");
 
   $layouts.find(".sidebar").hide();
@@ -17,7 +20,7 @@ const onTabRendered = (e) => {
 $(() => {
   $(document).on("shiny:message", onTabRendered);
   $(document).on("blockr:lock", (e) => {
-    if (!e.detail.locked) return;
+    locked = e.detail.locked;
     lockDash();
   });
 

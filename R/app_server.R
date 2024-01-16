@@ -12,7 +12,7 @@ app_server <- function(input, output, session) {
     insert_block_tab(input$addTab, input, output, session, locked)
     updateTabsetPanel(
       inputId = "nav",
-      selected = string_to_id(input$addTab)
+      selected = input$addTab
     )
   })
 
