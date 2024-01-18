@@ -1,22 +1,34 @@
 insert_block_tab <- \(title, input, output, session, locked){
   id <- string_to_id(title)
   grid_id <- sprintf("%sGrid", id)
+  add_id <- sprintf("%sAdd", id)
 
   on.exit({
     masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
   })
 
   tab <- bslib::layout_sidebar(
-    h1(title),
-    blockr.ui::addStackUI(
-      sprintf("%sAdd", id), 
-      ".masonry-row"
+    div(
+      class = "d-flex",
+      div(
+        class = "flex-grow-1",
+        h1(title)
+      ),
+      div(
+        class = "flex-shrink-1",
+        blockr.ui::addStackUI(
+          sprintf("%sAdd", id), 
+          ".masonry-row"
+        ),
+        actionButton(
+          add_id,
+          "Add row"
+        )
+      )
     ),
-    br(),
     masonry::masonryGrid(
       id = grid_id,
       send_on_change = TRUE,
-      # masonry::masonryRow(classes = "border"),
       styles = list(
         rows = list(
           `min-height` = "5rem"
@@ -46,6 +58,20 @@ insert_block_tab <- \(title, input, output, session, locked){
       tab
     )
   )
+
+  observeEvent(input[[add_id]], {
+    on.exit({
+      session$sendCustomMessage(
+        "blockr-app-bind-remove",
+        list()
+      )
+    })
+    masonry::masonry_add_row(
+      sprintf("#%s", grid_id),
+      new_row_remove_ui(id),
+      class = "border position-relative"
+    )
+  })
 
   add_stack <- blockr.ui::add_stack_server(
     sprintf("%sAdd", id),

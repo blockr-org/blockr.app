@@ -50,4 +50,8 @@ app_server <- function(input, output, session) {
 
     unlock()
   })
+
+  observeEvent(input$removeRow, {
+    print(input$removeRow)
+  })
 }
