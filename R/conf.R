@@ -1,4 +1,4 @@
-save_conf <- \(env, query){
+save_conf <- \(env, session, query){
   user <- query$user
 
   file <- ".blockr"
@@ -14,7 +14,7 @@ save_conf <- \(env, query){
   )
 }
 
-get_conf <- \(query){
+get_conf <- \(session, query){
   file <- ".blockr"
   if(length(query$user))
     file <- sprintf(".%s", query$user)

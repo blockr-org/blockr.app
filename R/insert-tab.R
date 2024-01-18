@@ -16,7 +16,7 @@ insert_block_tab <- \(title, input, output, session, locked){
     masonry::masonryGrid(
       id = grid_id,
       send_on_change = TRUE,
-      masonry::masonryRow(classes = "bg-success"),
+      masonry::masonryRow(classes = "border"),
       styles = list(
         rows = list(
           `min-height` = "5rem"
@@ -55,7 +55,7 @@ insert_block_tab <- \(title, input, output, session, locked){
   observeEvent(add_stack$dropped(), { 
     sel <- blockr.ui::block_list_server(
       sprintf("%sList", id),
-      delay = 2 * 1000
+      delay = 1 * 1000
     )
 
     new_block <- eventReactive(sel$dropped(), {
@@ -73,7 +73,7 @@ insert_block_tab <- \(title, input, output, session, locked){
       item = generate_ui(stack)
     )
 
-    stack_server <- generate_server(stack, new_blocks = new_block)
+    stack_server <- generate_server(stack, new_block = new_block)
 
     observeEvent(input[[sprintf("%s_config", grid_id)]], {
       print(input[[sprintf("%s_config", grid_id)]])
@@ -81,6 +81,10 @@ insert_block_tab <- \(title, input, output, session, locked){
         id,
         stats::setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
       )
+    })
+
+    observeEvent(stack_server$stack, {
+      set_ws(stack_server$stack, attr(stack, "name"))
     })
   })
 }

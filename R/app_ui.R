@@ -11,8 +11,8 @@ app_ui <- function(request) {
     # Your application UI logic
     bslib::page_navbar(
       tabPanel(
-        "First", 
-        id = "first",
+        "Home", 
+        id = "home",
         h1("title"),
         h2("subtitle"),
         uiOutput("lockButton")
