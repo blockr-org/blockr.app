@@ -3,7 +3,13 @@ restore_custom <- \(conf, input, output, session){
     grid_id <- sprintf("#%sGrid", tab$id)
 
     on.exit({
+      cat("Restoring masonry\n")
       masonry::mason(grid_id, delay = 1 * 1000)
+      masonry::masonry_restore_config(
+        sprintf("%sGrid", tab$id), 
+        tab$masonry
+      )
+      restore_tab_stacks(conf, tab$id)
     })
 
     add_stack <- blockr.ui::add_stack_server(
@@ -38,9 +44,57 @@ restore_custom <- \(conf, input, output, session){
         print(input[[sprintf("%s_config", grid_id)]])
         set_masonry(
           tab$id, 
-          stats::setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+          input[[sprintf("%s_config", grid_id)]]
         )
       })
     })
   })
+}
+
+restore_tab_stacks <- function(conf, tab_id){
+  stacks <- conf$tabs$tabs[[tab_id]]$masonry$grid |> 
+    sapply(\(grid){
+      grid$items |>
+        lapply(\(item) {
+          item$childId
+        }) |> 
+        unlist()
+    })
+
+  # restore rows
+  conf$tabs$tabs[[tab_id]]$masonry$grid |> 
+    lapply(\(x) {
+      masonry::masonry_add_row(
+        sprintf("#%sGrid", tab_id), 
+        classes = "border", 
+        position = "bottom",
+        id = x$id
+      )
+    })
+
+  # restore stacks
+  ws <- conf$workspace
+  ws$title <- NULL
+  ws$settings <- NULL
+
+  s <- ws |>
+    purrr::map2(names(ws), \(stack, name) {
+      if(name %in% stacks){
+        return(stack)
+      }
+
+      return(NULL)
+    }) |>
+    purrr::keep(\(stack) {
+      !is.null(stack)
+    }) |>
+    lapply(\(stack) {
+      masonry::masonry_add_item(
+        sprintf("#%sGrid", tab_id), 
+        1L,
+        item = generate_ui(stack)
+      )
+
+      server <- generate_server(stack)
+    })
 }

@@ -16,7 +16,7 @@ insert_block_tab <- \(title, input, output, session, locked){
     masonry::masonryGrid(
       id = grid_id,
       send_on_change = TRUE,
-      masonry::masonryRow(classes = "border"),
+      # masonry::masonryRow(classes = "border"),
       styles = list(
         rows = list(
           `min-height` = "5rem"
@@ -76,10 +76,9 @@ insert_block_tab <- \(title, input, output, session, locked){
     stack_server <- generate_server(stack, new_block = new_block)
 
     observeEvent(input[[sprintf("%s_config", grid_id)]], {
-      print(input[[sprintf("%s_config", grid_id)]])
       set_masonry(
         id,
-        stats::setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+        input[[sprintf("%s_config", grid_id)]]
       )
     })
 

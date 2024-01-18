@@ -1,6 +1,7 @@
 let locked = false;
+
 const lockDash = () => {
-  if(!locked) return;
+  if (!locked) return;
 
   const $layouts = $(".bslib-sidebar-layout");
 
