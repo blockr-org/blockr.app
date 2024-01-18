@@ -20,6 +20,9 @@ insert_block_tab <- \(title, input, output, session, locked){
           sprintf("%sAdd", id), 
           ".masonry-row"
         ),
+      ),
+      div(
+        class = "flex-shrink-1",
         actionButton(
           add_id,
           "Add row"
