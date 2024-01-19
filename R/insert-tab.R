@@ -27,7 +27,7 @@ insert_block_tab <- \(title, input, output, session, locked){
           add_id,
           "row",
           icon = icon("plus"),
-          class = "btn-sm"
+          class = "btn-sm add-row"
         )
       )
     ),

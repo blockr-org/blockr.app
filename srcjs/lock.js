@@ -1,3 +1,5 @@
+import { addTab } from "./add-tab";
+
 let locked = false;
 
 const lockDash = () => {
@@ -8,7 +10,14 @@ const lockDash = () => {
   $layouts.find(".sidebar").hide();
   $layouts.find(".collapse-toggle").trigger("click");
   $layouts.find(".collapse-toggle").hide();
+  $("#add-tab-form").remove();
+  $(".add-row").remove();
+  $(".remove-row").remove();
   $(".add-stack-wrapper").hide();
+
+  setTimeout(() => {
+    $("#add-tab-form")?.remove();
+  }, 1000);
 };
 
 const onTabRendered = (e) => {
@@ -25,31 +34,5 @@ $(() => {
     lockDash();
   });
 
-  // this is the weirdest thing, perhaps not surprising from Shiny
-  // adding this wihtout a massive timeout breaks... the websocket
-  // and Shiny.setInputValue or any other shiny function stop working
-  // or are staggered.
-  setTimeout(() => {
-    $(".navbar-collapse").append(
-      `<form class="d-flex">
-        <input id="addTitle" class="form-control me-2" type="text" placeholder="Tab title">
-        <button id="addSubmit" class="btn btn-outline-dark" type="submit">Add</button>
-      </form>`,
-    );
-
-    $("#addSubmit").on("click", () => {
-      const $el = $("#addTitle");
-      const title = $el.val();
-
-      if (!title) {
-        $el.addClass("is-invalid");
-        return;
-      }
-
-      $el.removeClass("is-invalid");
-      $el.val("");
-
-      window.Shiny.setInputValue("addTab", title);
-    });
-  }, 1000);
+  addTab(locked);
 });
