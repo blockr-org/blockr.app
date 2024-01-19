@@ -18,14 +18,16 @@ insert_block_tab <- \(title, input, output, session, locked){
         class = "flex-shrink-1",
         blockr.ui::addStackUI(
           sprintf("%sAdd", id), 
-          ".masonry-row"
+          target = ".masonry-row"
         ),
       ),
       div(
         class = "flex-shrink-1",
         actionButton(
           add_id,
-          "Add row"
+          "row",
+          icon = icon("plus"),
+          class = "btn-sm"
         )
       )
     ),
@@ -81,26 +83,43 @@ insert_block_tab <- \(title, input, output, session, locked){
     delay = 2 * 1000
   )
 
-  observeEvent(add_stack$dropped(), { 
-    sel <- blockr.ui::block_list_server(
-      sprintf("%sList", id),
-      delay = 1 * 1000
-    )
+  sel <- blockr.ui::block_list_server(
+    sprintf("%sList", id),
+    delay = 1 * 1000
+  )
 
-    new_block <- eventReactive(sel$dropped(), {
+  new_blocks <- reactiveVal()
+  observeEvent(sel$dropped(), {
+    new_blocks(
       list(
         position = NULL,
-        block = available_blocks()[sel$dropped()$index][[1]]
+        block = available_blocks()[sel$dropped()$index][[1]],
+        target = sel$dropped()$target
       )
-    })
+    )
+  })
 
+  observeEvent(add_stack$dropped(), {
+    new_blocks(NULL)
+  })
+
+  observeEvent(add_stack$dropped(), { 
     stack <- new_stack()
+
+    new_block <- eventReactive(new_blocks(), {
+      if(attr(stack, "name") != new_blocks()$target)
+        return()
+
+      new_blocks()
+    }, ignoreInit = TRUE)
 
     masonry::masonry_add_item(
       sprintf("#%s", grid_id),
       row_id = sprintf("#%s", add_stack$dropped()$target),
       item = generate_ui(stack)
     )
+
+    blockr.ui::block_list_bind(delay = 500)
 
     stack_server <- generate_server(stack, new_block = new_block)
 
