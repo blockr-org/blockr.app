@@ -18,11 +18,11 @@ const title = () => {
       `<input type="text" class="tab-title-input form-control form-control-sm mx-1" value="${$title.text()}">`,
     );
 
-    handleStackTitle();
+    handleStackTitle($title.text());
   });
 };
 
-const handleStackTitle = () => {
+const handleStackTitle = (title) => {
   $(".tab-title-input").off("keydown");
 
   $(".tab-title-input").on("keydown", (e) => {
@@ -33,6 +33,9 @@ const handleStackTitle = () => {
     $(e.target).replaceWith(
       `<h1 class="tab-title cursor-pointer">${newTitle}</h1>`,
     );
+
+    const $nav = $(document).find(`[data-value='${title}']`);
+    $nav.attr("data-value", newTitle);
 
     title();
   });
