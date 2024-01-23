@@ -70,11 +70,15 @@ insert_block_tab <- \(title, input, output, session, locked){
         "blockr-app-bind-remove",
         list()
       )
+      blockr.ui::add_stack_bind(
+        sprintf("%sAdd", id), 
+        delay = 50
+      )
     })
     masonry::masonry_add_row(
       sprintf("#%s", grid_id),
       new_row_remove_ui(id),
-      class = "border position-relative"
+      classes = "border position-relative rounded my-2"
     )
   })
 
