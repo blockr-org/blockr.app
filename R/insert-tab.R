@@ -12,7 +12,10 @@ insert_block_tab <- \(title, input, output, session, locked){
       class = "d-flex",
       div(
         class = "flex-grow-1",
-        h1(title)
+        h1(
+          title,
+          class = "tab-title"
+        )
       ),
       div(
         class = "flex-shrink-1",

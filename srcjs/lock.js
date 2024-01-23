@@ -11,6 +11,7 @@ const lockDash = () => {
   $("body").addClass("blockr-locked");
 
   const $layouts = $(".bslib-sidebar-layout");
+  $(".tab-title").off("click");
 
   $layouts.find(".sidebar").hide();
   $layouts.find(".collapse-toggle").trigger("click");
