@@ -31,10 +31,6 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$lock, {
-    print("block")
-  })
-
-  observeEvent(input$lock, {
     query <- parseQueryString(session$clientData$url_search)
     query$locked <- "true"
     query <- paste0(names(query), "=", query, collapse = "&")

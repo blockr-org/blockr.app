@@ -17,3 +17,4 @@ $run_dev.*
 ^LICENSE\.md$
 ^makefile$
 ^\.eslintrc\.js$
+^scss$

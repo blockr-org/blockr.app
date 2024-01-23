@@ -4,10 +4,13 @@ check: document
 document: bundle
 	Rscript -e "devtools::document()"
 
-bundle:
+sass: 
+	Rscript -e "output <- sass::sass(sass::sass_file('scss/main.scss'),cache = NULL,options = sass::sass_options(output_style='compressed'),output = 'inst/app/www/style.min.css')"
+
+bundle: sass
 	Rscript -e "packer::bundle_prod()"
 
-bundle_dev: 
+bundle_dev: sass
 	Rscript -e "packer::bundle_dev()"
 
 install: check

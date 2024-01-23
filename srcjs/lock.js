@@ -3,21 +3,19 @@ import { addTab } from "./add-tab";
 let locked = false;
 
 const lockDash = () => {
-  if (!locked) return;
+  if (!locked) {
+    $("body").removeClass("blockr-locked");
+    return;
+  }
+
+  $("body").addClass("blockr-locked");
 
   const $layouts = $(".bslib-sidebar-layout");
 
   $layouts.find(".sidebar").hide();
   $layouts.find(".collapse-toggle").trigger("click");
   $layouts.find(".collapse-toggle").hide();
-  $("#add-tab-form").remove();
-  $(".add-row").remove();
-  $(".remove-row").remove();
   $(".add-stack-wrapper").hide();
-
-  setTimeout(() => {
-    $("#add-tab-form")?.remove();
-  }, 1000);
 };
 
 const onTabRendered = (e) => {

@@ -1,0 +1,19 @@
+html {
+  .blockr-locked {
+    .masonry-row {
+      border: 0 !important;
+    }
+
+    .add-row {
+      display: none !important;
+    }
+
+    .remove-row {
+      display: none !important;
+    }
+
+    #add-tab-form{
+      display: none !important;
+    }
+  }
+}
