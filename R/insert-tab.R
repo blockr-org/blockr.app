@@ -2,6 +2,7 @@ insert_block_tab <- \(title, input, output, session, locked){
   id <- string_to_id(title)
   grid_id <- sprintf("%sGrid", id)
   add_id <- sprintf("%sAdd", id)
+  list_id <- sprintf("%sList", id)
 
   on.exit({
     masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
@@ -48,7 +49,7 @@ insert_block_tab <- \(title, input, output, session, locked){
     ),
     sidebar = bslib::sidebar(
       h2("Blocks"),
-      blockr.ui::blockListUI(sprintf("%sList", id))
+      blockr.ui::blockListUI(list_id)
     )
   )
 
@@ -74,7 +75,7 @@ insert_block_tab <- \(title, input, output, session, locked){
         list()
       )
       blockr.ui::add_stack_bind(
-        sprintf("%sAdd", id), 
+        add_id,
         delay = 50
       )
     })
@@ -86,12 +87,12 @@ insert_block_tab <- \(title, input, output, session, locked){
   })
 
   add_stack <- blockr.ui::add_stack_server(
-    sprintf("%sAdd", id),
+    add_id,
     delay = 2 * 1000
   )
 
   sel <- blockr.ui::block_list_server(
-    sprintf("%sList", id),
+    list_id,
     delay = 1 * 1000
   )
 

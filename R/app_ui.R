@@ -17,10 +17,11 @@ app_ui <- function(request) {
         h2("subtitle"),
         uiOutput("lockButton")
       ),
-      title = "blockr.save",
+      title = "blockr",
       id = "nav",
       header = list(
         useBlockr(),
+        fontawesome::fa_html_dependency(),
         blockr.ui::dependency("stack"),
         blockr.ui::dependency("register"),
         masonry::masonryDependencies()
@@ -47,7 +48,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "blockr.app"
+      app_title = "blockr"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

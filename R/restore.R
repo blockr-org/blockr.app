@@ -1,6 +1,9 @@
 restore_custom <- \(conf, input, output, session){
   purrr::walk(conf$tabs$tabs, \(tab) {
-    grid_id <- sprintf("#%sGrid", tab$id)
+    id <- tab$id
+    grid_id <- sprintf("#%sGrid", id)
+    add_id <- sprintf("%sAdd", id)
+    list_id <- sprintf("%sList", id)
 
     on.exit({
       cat("Restoring masonry\n")
@@ -12,40 +15,78 @@ restore_custom <- \(conf, input, output, session){
       restore_tab_stacks(conf, tab$id)
     })
 
+    observeEvent(input[[add_id]], {
+      on.exit({
+        session$sendCustomMessage(
+          "blockr-app-bind-remove",
+          list()
+        )
+        blockr.ui::add_stack_bind(
+          add_id,
+          delay = 50
+        )
+      })
+      masonry::masonry_add_row(
+        sprintf("#%s", grid_id),
+        new_row_remove_ui(id),
+        classes = "border position-relative rounded my-2"
+      )
+    })
+
     add_stack <- blockr.ui::add_stack_server(
       sprintf("%sAdd", tab$id),
       delay = 2 * 1000
     )
 
-    observeEvent(add_stack$dropped(), {
-      sel <- blockr.ui::block_list_server(
-        sprintf("%sList", tab$id),
-        delay = 1 * 1000
-      )
+    sel <- blockr.ui::block_list_server(
+      list_id,
+      delay = 1 * 1000
+    )
 
-      new_block <- eventReactive(sel$dropped(), {
+    new_blocks <- reactiveVal()
+    observeEvent(sel$dropped(), {
+      new_blocks(
         list(
           position = NULL,
-          block = available_blocks()[sel$dropped()$index][[1]]
+          block = available_blocks()[sel$dropped()$index][[1]],
+          target = sel$dropped()$target
         )
-      })
+      )
+    })
 
+    observeEvent(add_stack$dropped(), {
+      new_blocks(NULL)
+    })
+
+    observeEvent(add_stack$dropped(), { 
       stack <- new_stack()
 
+      new_block <- eventReactive(new_blocks(), {
+        if(attr(stack, "name") != new_blocks()$target)
+          return()
+
+        new_blocks()
+      }, ignoreInit = TRUE)
+
       masonry::masonry_add_item(
-        grid_id,
+        sprintf("#%s", grid_id),
         row_id = sprintf("#%s", add_stack$dropped()$target),
         item = generate_ui(stack)
       )
 
+      blockr.ui::block_list_bind(delay = 500)
+
       stack_server <- generate_server(stack, new_block = new_block)
 
       observeEvent(input[[sprintf("%s_config", grid_id)]], {
-        print(input[[sprintf("%s_config", grid_id)]])
         set_masonry(
-          tab$id, 
+          id,
           input[[sprintf("%s_config", grid_id)]]
         )
+      })
+
+      observeEvent(stack_server$stack, {
+        set_ws(stack_server$stack, attr(stack, "name"))
       })
     })
   })

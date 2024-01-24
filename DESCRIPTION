@@ -21,6 +21,7 @@ Imports:
   masonry,
   jsonlite,
   blockr.ui,
+  fontawesome,
   blockr.save
 Suggests:
   pkgload
