@@ -36,12 +36,13 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     new_blocks(
       list(
         position = NULL,
-        block = available_blocks()[sel$dropped()$index][[1]],
+        block = available_blocks()[[sel$dropped()$index]],
         target = sel$dropped()$target
       )
     )
   })
 
+  # reset the reactive when we add a stack
   observeEvent(add_stack$dropped(), {
     new_blocks(NULL)
   })

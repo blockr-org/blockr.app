@@ -9,31 +9,9 @@ insert_block_tab <- \(title, input, output, session, locked){
   })
 
   tab <- bslib::layout_sidebar(
-    div(
-      class = "d-flex",
-      div(
-        class = "flex-grow-1",
-        h1(
-          title,
-          class = "tab-title"
-        )
-      ),
-      div(
-        class = "flex-shrink-1",
-        blockr.ui::addStackUI(
-          sprintf("%sAdd", id), 
-          target = ".masonry-row"
-        ),
-      ),
-      div(
-        class = "flex-shrink-1",
-        actionButton(
-          add_id,
-          "row",
-          icon = icon("plus"),
-          class = "btn-sm add-row"
-        )
-      )
+    h1(
+      title,
+      class = "tab-title"
     ),
     masonry::masonryGrid(
       id = grid_id,
@@ -48,6 +26,25 @@ insert_block_tab <- \(title, input, output, session, locked){
       )
     ),
     sidebar = bslib::sidebar(
+      div(
+        class = "d-flex",
+        div(
+          class = "flex-grow-1",
+          actionButton(
+            add_id,
+            "row",
+            icon = icon("plus"),
+            class = "btn-sm add-row"
+          )
+        ),
+        div(
+          class = "flex-shrink-1",
+          blockr.ui::addStackUI(
+            sprintf("%sAdd", id), 
+            target = ".masonry-row"
+          )
+        )
+      ),
       h2("Blocks"),
       blockr.ui::blockListUI(list_id)
     )
