@@ -13,8 +13,8 @@ app_ui <- function(request) {
       tabPanel(
         "Home", 
         id = "home",
-        h1("title"),
-        h2("subtitle"),
+        h1("Blockr application"),
+        h2("Compose dashboards from blocks"),
         uiOutput("lockButton")
       ),
       title = "blockr",

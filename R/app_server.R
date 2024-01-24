@@ -18,7 +18,7 @@ app_server <- function(input, output, session) {
 
   output$lockButton <- renderUI({
     if (locked()) return("")
-    actionButton("lock", "lock")
+    actionButton("lock", "Lock dashboard", class = "btn-sm")
   })
 
   observe({
