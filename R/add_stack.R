@@ -51,6 +51,9 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     stack <- new_stack()
 
     new_block <- eventReactive(new_blocks(), {
+      if(is.null(new_blocks()))
+        return()
+
       # check that it's the correct stack
       if(attr(stack, "name") != new_blocks()$target)
         return()
@@ -97,6 +100,7 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
 
     observeEvent(stack_server$stack, {
       set_ws(stack_server$stack, attr(stack, "name"))
+      new_blocks(NULL)
     })
   })
 }
