@@ -2,5 +2,16 @@ html {
   .sidebar {
     position: fixed;
     width: 15rem !important;
+    min-height: 85vh;
+    border: 1px solid var(--bs-border-color);
+    overflow-y: auto;
+  }
+
+  .bslib-sidebar-layout {
+    border: none;
+
+    .collapse-toggle {
+      display: none !important;
+    }
   }
 }
