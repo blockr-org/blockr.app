@@ -51,8 +51,29 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     stack <- new_stack()
 
     new_block <- eventReactive(new_blocks(), {
+      # check that it's the correct stack
       if(attr(stack, "name") != new_blocks()$target)
         return()
+
+      # first block must be of type data
+      if(!length(stack_server$stack) && !is.na(attr(new_blocks()$block, "input"))){
+        # TODO change these default notifications from Shiny: ugly
+        showNotification(
+          "Stacks must start with a block of type data",
+          type = "error"
+        )
+        return()
+      }
+
+      # stack has data block
+      if(length(stack_server$stack) && is.na(attr(new_blocks()$block, "input"))){
+        # TODO change these default notifications from Shiny: ugly
+        showNotification(
+          "Stack already has a data block",
+          type = "error"
+        )
+        return()
+      }
 
       new_blocks()
     }, ignoreInit = TRUE)
