@@ -20,8 +20,13 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
 }
 
 restore_tab_stacks <- function(conf, tab_id){
-  stacks <- conf$tabs$tabs[[tab_id]]$masonry$grid |> 
+  grid <- conf$tabs$tabs[[tab_id]]$masonry$grid
+
+  stacks <- grid |> 
     sapply(\(grid){
+      if(!length(grid$items))
+        return()
+
       grid$items |>
         lapply(\(item) {
           item$childId
@@ -30,7 +35,7 @@ restore_tab_stacks <- function(conf, tab_id){
     })
 
   # restore rows
-  conf$tabs$tabs[[tab_id]]$masonry$grid |> 
+  grid |> 
     lapply(\(x) {
       masonry::masonry_add_row(
         sprintf("#%sGrid", tab_id), 

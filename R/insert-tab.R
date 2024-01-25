@@ -41,6 +41,11 @@ insert_block_tab <- \(title, input, output, session, locked){
           class = "flex-shrink-1",
           blockr.ui::addStackUI(
             sprintf("%sAdd", id), 
+            content = span(
+              class = "rounded border border-secondary px-2 py-1 text-muted",
+              icon("grip"), 
+              "Stack"
+            ),
             target = ".masonry-row"
           )
         )

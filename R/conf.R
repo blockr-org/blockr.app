@@ -4,7 +4,10 @@ save_conf <- \(env, session, query){
   user <- query$user
 
   if(!is.null(board)){
-    pins::pin_write(board, env, "pin", type = "json")
+    file <- tempfile()
+    on.exit(unlink(file))
+    ...write(env, file)
+    pins::pin_upload(board, file, name = "pin")
     return()
   }
 
@@ -12,24 +15,39 @@ save_conf <- \(env, session, query){
   if(length(user))
     file <- sprintf(".%s", user)
 
-  jsonlite::write_json(
-    env, 
-    file, 
-    dataframe = "rows", 
-    auto_unbox = TRUE, 
-    pretty = TRUE
-  )
+  ...write(env, file, pretty = TRUE)
 }
 
 get_conf <- \(session, query){
   board <- getOption("blockr.app.board")
 
-  if(!is.null(board))
-    return(pins::pin_read(board, "pin"))
+  if(!is.null(board)){
+    data <- pins::pin_download(board, "pin") |>
+      ...read()
+
+    return(data)
+  }
 
   file <- ".blockr"
   if(length(query$user))
     file <- sprintf(".%s", query$user)
 
+  ...read(file)
+}
+
+...parse <- function(data, ...){ # nolint
+  jsonlite::parse_json(data, ...)
+}
+
+...read <- function(file){ # nolint
   jsonlite::read_json(file)
+}
+
+...write <- function(data, file, ...){ # nolint
+  jsonlite::write_json(
+    data, 
+    file, 
+    dataframe = "rows", 
+    auto_unbox = TRUE
+  )
 }
