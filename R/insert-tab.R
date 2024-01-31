@@ -1,5 +1,6 @@
 insert_block_tab <- \(title, input, output, session, locked){
   id <- string_to_id(title)
+  remove_id <- sprintf("%sRemove", id)
   grid_id <- sprintf("%sGrid", id)
   add_id <- sprintf("%sAdd", id)
   list_id <- sprintf("%sList", id)
@@ -9,9 +10,24 @@ insert_block_tab <- \(title, input, output, session, locked){
   })
 
   tab <- bslib::layout_sidebar(
-    h1(
-      title,
-      class = "tab-title"
+    div(
+      class = "d-flex",
+      div(
+        class = "flex-grow-1",
+        h1(
+          title,
+          class = "tab-title"
+        )
+      ),
+      div(
+        class = "flex-shrink-1",
+        actionButton(
+          remove_id,
+          "",
+          class = "locker btn-outline-danger",
+          icon = icon("trash")
+        )
+      )
     ),
     masonry::masonryGrid(
       id = grid_id,
@@ -40,7 +56,7 @@ insert_block_tab <- \(title, input, output, session, locked){
         div(
           class = "flex-shrink-1 p-1",
           blockr.ui::addStackUI(
-            sprintf("%sAdd", id), 
+            add_id, 
             content = span(
               class = "rounded border border-secondary px-2 py-1 text-muted",
               icon("grip"), 
@@ -70,5 +86,6 @@ insert_block_tab <- \(title, input, output, session, locked){
     )
   )
 
+  insert_tab_server(id, input, output, session)
   handle_add_stack(id, input, session)
 }
