@@ -50,6 +50,6 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$removeRow, {
-    print(input$removeRow)
+    sapply(input$removeRow, \(x) blockr::rm_workspace_stack(x))
   })
 }

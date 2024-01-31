@@ -21,11 +21,10 @@ insert_block_tab <- \(title, input, output, session, locked){
       ),
       div(
         class = "flex-shrink-1",
-        actionButton(
-          remove_id,
-          "",
-          class = "locker btn-outline-danger",
-          icon = icon("trash")
+        tags$a(
+          id = remove_id,
+          class = "remove-tab btn btn-sm locker btn-outline-danger",
+          icon("trash")
         )
       )
     ),
