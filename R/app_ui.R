@@ -15,7 +15,27 @@ app_ui <- function(request) {
         id = "home",
         h1("Blockr application"),
         h2("Compose dashboards from blocks"),
-        uiOutput("lockButton")
+        div(
+          class = "d-flex",
+          div(
+            class = "flex-shrink1",
+            uiOutput("lockButton")
+          ),
+          div(
+            class = "flex-grow-1",
+            tags$a(
+              `data-bs-toggle` = "collapse",
+              href = "#createBlock",
+              class = "btn btn-sm btn-outline-dark ms-2",
+              "Create a block"
+            )
+          )
+        ),
+        div(
+          id = "createBlock",
+          class = "collapse",
+          createUI("create")
+        )
       ),
       title = "blockr",
       id = "nav",

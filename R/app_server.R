@@ -7,6 +7,8 @@
 app_server <- function(input, output, session) {
   set_tab_id("nav")
 
+  added <- create_server("create")
+
   locked <- reactiveVal(FALSE)
   observeEvent(input$addTab, {
     insert_block_tab(input$addTab, input, output, session, locked)

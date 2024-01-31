@@ -38,7 +38,7 @@ insert_block_tab <- \(title, input, output, session, locked){
           )
         ),
         div(
-          class = "flex-shrink-1",
+          class = "flex-shrink-1 p-1",
           blockr.ui::addStackUI(
             sprintf("%sAdd", id), 
             content = span(
