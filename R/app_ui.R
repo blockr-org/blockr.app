@@ -31,7 +31,15 @@ app_ui <- function(request) {
         div(
           class = "d-flex",
           div(
-            class = "flex-shrink1",
+            class = "flex-shrink-1 px-2",
+            tags$a(
+              href = "https://blockr-org.github.io/blockr/",
+              target = "_blank",
+              "Documentation"
+            )
+          ),
+          div(
+            class = "flex-shrink-1",
             uiOutput("lockButton")
           ),
           div(
