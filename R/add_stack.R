@@ -36,7 +36,7 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     print(sel$dropped())
     new_blocks(
       list(
-        position = sel$dropped()$index - 1L,
+        position = sel$dropped()$position,
         block = available_blocks()[[sel$dropped()$index]],
         target = sel$dropped()$target
       )
