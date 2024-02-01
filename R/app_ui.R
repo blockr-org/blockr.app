@@ -13,8 +13,21 @@ app_ui <- function(request) {
       tabPanel(
         "Home", 
         id = "home",
-        h1("Blockr application"),
-        h2("Compose dashboards from blocks"),
+        div(
+          class = "d-flex",
+          div(
+            class = "flex-grow-1",
+            h1("Blockr application"),
+            h2("Compose dashboards from blocks"),
+          ),
+          div(
+            class = "flex-shrink-1",
+            tags$img(
+              src = "www/logo.png",
+              width = 250
+            )
+          )
+        ),
         div(
           class = "d-flex",
           div(
