@@ -1,5 +1,4 @@
 window.Shiny.addCustomMessageHandler("remove-tab", function (msg) {
-  console.log(msg);
   setTimeout(() => {
     $(".remove-tab").off("click");
 

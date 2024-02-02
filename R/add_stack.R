@@ -33,7 +33,6 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
 
   new_blocks <- reactiveVal()
   observeEvent(sel$dropped(), {
-    print(sel$dropped())
     new_blocks(
       list(
         position = sel$dropped()$position,
