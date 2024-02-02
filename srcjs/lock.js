@@ -9,6 +9,7 @@ const lockDash = () => {
   }
 
   $("body").addClass("blockr-locked");
+  $(".remove-tab").hide();
 
   const $layouts = $(".bslib-sidebar-layout");
   $(".tab-title").off("click");

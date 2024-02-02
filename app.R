@@ -1,4 +1,5 @@
 # Launch the ShinyApp (Do not remove this comment)
+library(sortable)
 
 pkgload::load_all(
   export_all = FALSE,
@@ -11,4 +12,4 @@ options(
   "blockr.app.board" = pins::board_temp()
 )
 
-blockr.app::run_app(board = pins::board_temp())
+run_app(board = pins::board_temp())
