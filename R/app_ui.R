@@ -40,7 +40,7 @@ app_ui <- function(request) {
           ),
           div(
             class = "flex-shrink-1",
-            uiOutput("lockButton")
+            uiOutput("locker")
           ),
           div(
             class = "flex-grow-1",

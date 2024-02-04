@@ -18,9 +18,28 @@ app_server <- function(input, output, session) {
     )
   })
 
-  output$lockButton <- renderUI({
+  output$locker <- renderUI({
     if (locked()) return("")
-    actionButton("lock", "Lock dashboard", class = "btn-sm")
+    query <- parseQueryString(session$clientData$url_search)
+
+    on.exit({
+      session$sendCustomMessage("bind-lock", list())
+    })
+
+    div(
+      class = "input-group",
+      tags$input(
+        id = "lockName",
+        class = "form-control",
+        placeholder = "Name of the dashboard",
+        value = query$name
+      ),
+      tags$button(
+        id = "lock",
+        class = "btn btn-outline-dark",
+        "Lock"
+      )
+    )
   })
 
   observe({
@@ -35,7 +54,9 @@ app_server <- function(input, output, session) {
   observeEvent(input$lock, {
     query <- parseQueryString(session$clientData$url_search)
     query$locked <- "true"
-    query <- paste0(names(query), "=", query, collapse = "&")
+    query$name <- input$lock$title
+    query <- paste0(names(query), "=", query, collapse = "&") |>
+      utils::URLencode()
     updateQueryString(paste0("?", query))
     locked(TRUE)
   })

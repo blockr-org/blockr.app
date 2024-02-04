@@ -1,7 +1,7 @@
 save_conf <- \(env, session, query){
   board <- getOption("blockr.app.board")
 
-  user <- query$user
+  name <- query$name
 
   if(!is.null(board)){
     file <- tempfile()
@@ -12,8 +12,8 @@ save_conf <- \(env, session, query){
   }
 
   file <- ".blockr"
-  if(length(user))
-    file <- sprintf(".%s", user)
+  if(length(name))
+    file <- sprintf(".%s", name)
 
   ...write(env, file, pretty = TRUE)
 }
@@ -29,8 +29,8 @@ get_conf <- \(session, query){
   }
 
   file <- ".blockr"
-  if(length(query$user))
-    file <- sprintf(".%s", query$user)
+  if(length(query$name))
+    file <- sprintf(".%s", query$name)
 
   ...read(file)
 }

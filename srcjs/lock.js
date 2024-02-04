@@ -35,4 +35,30 @@ $(() => {
   });
 
   addTab(locked);
+
+  window.Shiny.addCustomMessageHandler("bind-lock", (_message) => {
+    setTimeout(() => {
+      $("#lock").on("click", () => {
+        const title = $("#lockName").val();
+
+        if (title === "") {
+          window.Shiny.notifications.show({
+            html: "Missing title",
+            type: "error",
+          });
+          return;
+        }
+
+        if (title.includes(" ")) {
+          window.Shiny.notifications.show({
+            html: "Title cannot include spaces",
+            type: "error",
+          });
+          return;
+        }
+
+        window.Shiny.setInputValue("lock", { title: title });
+      });
+    }, 250);
+  });
 });
