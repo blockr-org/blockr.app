@@ -28,6 +28,7 @@ save_conf <- \(env, session, query){
 }
 
 get_conf <- \(session, query){
+  blockr.save::reset_conf()
   board <- getOption("blockr.app.board")
 
   name <- query$name

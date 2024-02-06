@@ -90,12 +90,12 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     blockr.ui::block_list_bind(delay = 500, session = session)
 
     stack_server <- generate_server(stack, new_block = new_block)
+  })
 
-    observeEvent(input[[sprintf("%s_config", grid_id)]], {
-      set_masonry(
-        id,
-        input[[sprintf("%s_config", grid_id)]]
-      )
-    })
+  observeEvent(input[[sprintf("%s_config", grid_id)]], {
+    set_masonry(
+      id,
+      input[[sprintf("%s_config", grid_id)]]
+    )
   })
 }

@@ -944,14 +944,14 @@
       "RemoteRepo": "masonry",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "4eeaad5cc454cecb53d99c33a82553910f6c9f08",
+      "RemoteSha": "097fa73ab5bbdf4f68bbdfc6b033e25470415557",
       "Requirements": [
         "htmltools",
         "htmlwidgets",
         "jsonlite",
         "shiny"
       ],
-      "Hash": "64882c475e0de74b2ec8eee7c1a2b69d"
+      "Hash": "25176340039f5aff06d1ad3f470efba0"
     },
     "memoise": {
       "Package": "memoise",
