@@ -64,6 +64,7 @@ get_conf <- \(session, query){
     data, 
     file, 
     dataframe = "rows", 
-    auto_unbox = TRUE
+    auto_unbox = TRUE,
+    pretty = TRUE
   )
 }

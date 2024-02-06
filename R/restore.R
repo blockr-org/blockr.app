@@ -10,7 +10,8 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
       masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
       masonry::masonry_restore_config(
         sprintf("%sGrid", id), 
-        tab$masonry
+        tab$masonry,
+        delay = 1.5 * 1000
       )
       restore_tab_stacks(conf, id, list_id)
     })
