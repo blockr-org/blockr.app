@@ -97,10 +97,5 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
         input[[sprintf("%s_config", grid_id)]]
       )
     })
-
-    observeEvent(stack_server$stack, {
-      set_ws(stack_server$stack, attr(stack, "name"))
-      new_blocks(NULL)
-    })
   })
 }

@@ -5,8 +5,6 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     add_id <- sprintf("%sAdd", id)
     list_id <- sprintf("%sList", id)
 
-    insert_tab_servers(conf, input, output, session)
-
     on.exit({
       cat("Restoring masonry\n")
       masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
@@ -18,6 +16,7 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     })
 
     handle_add_stack(id, input, session)
+    insert_tab_servers(conf, input, output, session)
   })
 }
 

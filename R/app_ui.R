@@ -39,10 +39,6 @@ app_ui <- function(request) {
             )
           ),
           div(
-            class = "flex-shrink-1",
-            uiOutput("locker")
-          ),
-          div(
             class = "flex-grow-1",
             tags$a(
               `data-bs-toggle` = "collapse",
@@ -56,6 +52,10 @@ app_ui <- function(request) {
           id = "createBlock",
           class = "collapse",
           createUI("create")
+        ),
+        div(
+          class = "flex-shrink-1",
+          uiOutput("locker")
         )
       ),
       title = "blockr",

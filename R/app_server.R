@@ -55,6 +55,8 @@ app_server <- function(input, output, session) {
     query <- parseQueryString(session$clientData$url_search)
     query$locked <- "true"
     query$name <- input$lock$title
+    # hacky but requires fix on blockr.save-side
+    options(query = query)
     query <- paste0(names(query), "=", query, collapse = "&") |>
       utils::URLencode()
     updateQueryString(paste0("?", query))
@@ -71,6 +73,7 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$removeRow, {
+    # TODO change for rm_workspace_stacks when it's merged.
     sapply(input$removeRow, \(x) blockr::rm_workspace_stack(x))
   })
 }
