@@ -26,16 +26,19 @@ restore_tab_stacks <- function(conf, tab_id, list_id){
   grid <- conf$tabs$tabs[[tab_id]]$masonry$grid
 
   stacks <- grid |> 
-    sapply(\(grid){
+    purrr::imap(\(grid, index){
       if(!length(grid$items))
         return()
 
       grid$items |>
         lapply(\(item) {
-          item$childId
-        }) |> 
-        unlist()
-    })
+          list(
+            row = index,
+            stack = item$childId
+          )
+        })
+    }) |>
+    purrr::flatten()
 
   # restore rows
   grid |> 
@@ -71,19 +74,11 @@ restore_tab_stacks <- function(conf, tab_id, list_id){
 
   ws |>
     purrr::map2(names(ws), \(stack, name) {
-      if(name %in% stacks){
-        return(stack)
-      }
+      row <- get_stack_row_index(stacks, name)
 
-      return(NULL)
-    }) |>
-    purrr::keep(\(stack) {
-      !is.null(stack)
-    }) |>
-    lapply(\(stack) {
       masonry::masonry_add_item(
         sprintf("#%sGrid", tab_id), 
-        1L,
+        row,
         item = generate_ui(stack)
       )
 
@@ -100,4 +95,13 @@ restore_tab_stacks <- function(conf, tab_id, list_id){
 
       server <- generate_server(stack, new_block = new_block)
     })
+}
+
+get_stack_row_index <- function(stacks, stack_name){
+  stacks |>
+    purrr::keep(\(stack) {
+      isTRUE(stack$stack == stack_name)
+    }) |>
+    purrr::map("row") |>
+    unlist()
 }

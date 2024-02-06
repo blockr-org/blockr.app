@@ -93,6 +93,7 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
   })
 
   observeEvent(input[[sprintf("%s_config", grid_id)]], {
+    # print(input[[sprintf("%s_config", grid_id)]])
     set_masonry(
       id,
       input[[sprintf("%s_config", grid_id)]]
