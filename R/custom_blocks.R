@@ -158,7 +158,7 @@ register_custom_blocks <- function(){
     name = "demo data block",
     description = "data blcok",
     classes = c("demo_data_block", "data_block"),
-    input = "data.frame",
+    input = NA_character_,
     output = "data.frame"
   )
 
