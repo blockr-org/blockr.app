@@ -18,6 +18,7 @@ const lockDash = () => {
   $layouts.find(".collapse-toggle").trigger("click");
   $layouts.find(".collapse-toggle").hide();
   $(".add-stack-wrapper").hide();
+  $(".bslib-sidebar-layout > .main").css("grid-column", "1/3");
 };
 
 const onTabRendered = (e) => {

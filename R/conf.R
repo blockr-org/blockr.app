@@ -1,7 +1,9 @@
 save_conf <- \(env, session, query){
   on.exit({
+    cat("Resetting config\n")
     blockr.save::reset_conf()
   })
+
   board <- getOption("blockr.app.board")
 
   name <- query$name
