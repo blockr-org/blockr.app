@@ -12,15 +12,15 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
         sprintf("%sGrid", id), 
         tab$masonry
       )
-      restore_tab_stacks(conf, id)
+      restore_tab_stacks(conf, id, list_id)
     })
 
-    handle_add_stack(id, input, session)
     insert_tab_servers(conf, input, output, session)
+    handle_add_stack(id, input, session)
   })
 }
 
-restore_tab_stacks <- function(conf, tab_id){
+restore_tab_stacks <- function(conf, tab_id, list_id){
   grid <- conf$tabs$tabs[[tab_id]]$masonry$grid
 
   stacks <- grid |> 
@@ -51,6 +51,22 @@ restore_tab_stacks <- function(conf, tab_id){
   ws$title <- NULL
   ws$settings <- NULL
 
+  sel <- blockr.ui::block_list_server(
+    list_id,
+    delay = 1 * 1000
+  )
+
+  new_blocks <- reactiveVal()
+  observeEvent(sel$dropped(), {
+    new_blocks(
+      list(
+        position = sel$dropped()$position,
+        block = available_blocks()[[sel$dropped()$index]],
+        target = sel$dropped()$target
+      )
+    )
+  })
+
   s <- ws |>
     purrr::map2(names(ws), \(stack, name) {
       if(name %in% stacks){
@@ -69,6 +85,17 @@ restore_tab_stacks <- function(conf, tab_id){
         item = generate_ui(stack)
       )
 
-      server <- generate_server(stack)
+      new_block <- eventReactive(new_blocks(), {
+        if(is.null(new_blocks()))
+          return()
+
+        # check that it's the correct stack
+        if(attr(stack, "name") != new_blocks()$target)
+          return()
+
+        new_blocks()
+      }, ignoreInit = TRUE)
+
+      server <- generate_server(stack, new_block = new_block)
     })
 }

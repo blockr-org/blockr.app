@@ -172,13 +172,13 @@
       "RemoteRepo": "blockr.save",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "efdc635b9de551ebe28387f86c53d39b3de08101",
+      "RemoteSha": "97950546a6aba626f1a470184bf64dd5ad91a966",
       "Requirements": [
         "methods",
         "purrr",
         "shiny"
       ],
-      "Hash": "bb7c57ec7f9df93f7e3a4b6ec2cdf3f0"
+      "Hash": "6e959076041d335eca3df1f608ba2bc2"
     },
     "blockr.ui": {
       "Package": "blockr.ui",
