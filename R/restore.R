@@ -9,11 +9,12 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
       cat("Restoring masonry\n")
       masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
       masonry::masonry_restore_config(
-        sprintf("%sGrid", id), 
+        grid_id,
         tab$masonry,
         delay = 1.5 * 1000
       )
       restore_tab_stacks(conf, id, list_id)
+      masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
     })
 
     insert_tab_servers(conf, input, output, session)
@@ -68,7 +69,7 @@ restore_tab_stacks <- function(conf, tab_id, list_id){
     )
   })
 
-  s <- ws |>
+  ws |>
     purrr::map2(names(ws), \(stack, name) {
       if(name %in% stacks){
         return(stack)

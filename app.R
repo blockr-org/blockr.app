@@ -8,8 +8,8 @@ pkgload::load_all(
 )
 
 options(
-  "golem.app.prod" = TRUE,
-  "blockr.app.board" = pins::board_temp()
+  "golem.app.prod" = TRUE
+  # "blockr.app.board" = pins::board_temp()
 )
 
 run_app(board = pins::board_temp())
