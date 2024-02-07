@@ -7,8 +7,10 @@ save_conf <- \(env, session, query){
   board <- getOption("blockr.app.board")
 
   name <- query$name
-  if(!length(name))
-    name <- "blockr"
+  if(!length(name)){
+    cat("No name given, not saving\n")
+    return()
+  }
 
   if(!is.null(board)){
     cat("Saving dashboard to pin:", name, "\n")
@@ -32,8 +34,10 @@ get_conf <- \(session, query){
   board <- getOption("blockr.app.board")
 
   name <- query$name
-  if(!length(name))
-    name <- "blockr"
+  if(!length(name)){
+    cat("No name given, not restoring\n")
+    return()
+  }
 
   if(!is.null(board)){
     cat("Restoring dashboard from pin:", name, "\n")
