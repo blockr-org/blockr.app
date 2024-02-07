@@ -23,12 +23,14 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
 
   add_stack <- blockr.ui::add_stack_server(
     sprintf("%sAdd", id),
-    delay = 2 * 1000
+    delay = 2 * 1000,
+    feedback = FALSE
   )
 
   sel <- blockr.ui::block_list_server(
     list_id,
-    delay = 1 * 1000
+    delay = 1 * 1000,
+    feedback = FALSE
   )
 
   new_blocks <- reactiveVal()

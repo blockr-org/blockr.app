@@ -1964,6 +1964,26 @@
       ],
       "Hash": "92873fb57cc5b73fe2aa0b09056a789a"
     },
+    "pharmaverseadam": {
+      "Package": "pharmaverseadam",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "83a61452b17515df080978b6133f80ef"
+    },
+    "pharmaversesdtm": {
+      "Package": "pharmaversesdtm",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "23d87e0c10d93fab66cb03602fffd5a3"
+    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.9.0",

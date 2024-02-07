@@ -1,10 +1,27 @@
-demo_data_block <- function(...) {
+new_sdtm_block <- function(...) {
   initialize_block(
     new_data_block(
       ...,
-      selected = "iris"
+      dat = as.environment("package:pharmaversesdtm")
     )
   )
+}
+
+sdtm_block <- function(...) {
+  initialize_block(new_sdtm_block(...))
+}
+
+new_adam_block <- function(...) {
+  initialize_block(
+    new_data_block(
+      ...,
+      dat = as.environment("package:pharmaverseadam")
+    )
+  )
+}
+
+adam_block <- function(...) {
+  initialize_block(new_adam_block(...))
 }
  
 num_cols <- function(data) {
@@ -154,10 +171,19 @@ register_custom_blocks <- function(){
   )
 
   blockr::register_block(
-    constructor = demo_data_block,
-    name = "demo data block",
-    description = "data blcok",
-    classes = c("demo_data_block", "data_block"),
+    constructor = sdtm_block,
+    name = "SDTM data block",
+    description = "SDTM datasets",
+    classes = c("sdtm_block", "data_block"),
+    input = NA_character_,
+    output = "data.frame"
+  )
+
+  blockr::register_block(
+    constructor = adam_block,
+    name = "ADAM data block",
+    description = "ADAM datasets",
+    classes = c("adam_block", "data_block"),
     input = NA_character_,
     output = "data.frame"
   )
