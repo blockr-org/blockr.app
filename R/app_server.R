@@ -53,8 +53,8 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$lock, {
     query <- parseQueryString(session$clientData$url_search)
-    query$locked <- "true"
     query$name <- input$lock$title
+    query$locked <- "true"
     # hacky but requires fix on blockr.save-side
     options(query = query)
     query <- paste0(names(query), "=", query, collapse = "&") |>

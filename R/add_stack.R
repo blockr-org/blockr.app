@@ -27,11 +27,25 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     feedback = FALSE
   )
 
+  observeEvent(add_stack$error(), {
+    showNotification(
+      add_stack$error()$message,
+      type = "error"
+    )
+  })
+
   sel <- blockr.ui::block_list_server(
     list_id,
     delay = 1 * 1000,
     feedback = FALSE
   )
+
+  observeEvent(sel$error(), {
+    showNotification(
+      sel$error()$message,
+      type = "error"
+    )
+  })
 
   new_blocks <- reactiveVal()
   observeEvent(sel$dropped(), {
