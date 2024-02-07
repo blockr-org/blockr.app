@@ -76,6 +76,10 @@ restore_tab_stacks <- function(conf, tab_id, list_id){
     purrr::map2(names(ws), \(stack, name) {
       row <- get_stack_row_index(stacks, name)
 
+      # this means the stack is not on this tab, we skip
+      if(is.null(row))
+        return()
+
       masonry::masonry_add_item(
         sprintf("#%sGrid", tab_id), 
         row,
