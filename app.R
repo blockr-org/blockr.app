@@ -15,4 +15,4 @@ options(
   "blockr.app.board" = pins::board_temp()
 )
 
-run_app(board = pins::board_temp())
+run_app()
