@@ -40,6 +40,14 @@ $(() => {
 
   window.Shiny.addCustomMessageHandler("bind-lock", (_message) => {
     setTimeout(() => {
+      $("#lockName").on("keyup", (e) => {
+        if (e.key != "Enter") {
+          return;
+        }
+
+        $("#lock").click();
+      });
+
       $("#lock").on("click", () => {
         const title = $("#lockName").val();
 
