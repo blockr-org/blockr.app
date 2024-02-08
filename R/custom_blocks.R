@@ -42,7 +42,7 @@ ggscatterstats_block <- function(data, ...) {
  
   new_block(
     expr = quote(
-      ggscatterstats(
+      ggstatsplot::ggscatterstats(
         x = .(x),
         y = .(y),
         type = .(type),
