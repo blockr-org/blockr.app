@@ -415,7 +415,7 @@
       "RemoteRepo": "blockr",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "933c692f7b52b1ddcfa39da9fed69304d2485779",
+      "RemoteSha": "f892f285aa440601615aa561a796f53240566c45",
       "Requirements": [
         "DT",
         "blockr.data",
@@ -434,7 +434,7 @@
         "shinyFiles",
         "utils"
       ],
-      "Hash": "5befba52551e6e3c1224a6c0e6b0d90a"
+      "Hash": "7aeffef09c01459f6f4ac163d48e88fe"
     },
     "blockr.data": {
       "Package": "blockr.data",
@@ -461,7 +461,7 @@
       "RemoteRepo": "blockr.extra",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "904650f4cec95805e4a7a6ef6ca4841810abb035",
+      "RemoteSha": "dc47a51f418a8dffd4c2b6a5ffb65ecf0fc85918",
       "Requirements": [
         "admiral",
         "blockr",
@@ -471,7 +471,7 @@
         "rlang",
         "shiny"
       ],
-      "Hash": "214d5c3961913ec53d8d1a3b04884859"
+      "Hash": "0186ec91850ff9d62812579acffc4215"
     },
     "blockr.save": {
       "Package": "blockr.save",
