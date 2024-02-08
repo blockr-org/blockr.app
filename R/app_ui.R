@@ -18,7 +18,7 @@ app_ui <- function(request) {
           div(
             class = "flex-grow-1",
             h1("Blockr application"),
-            h2("Compose dashboards from blocks"),
+            h3("Compose dashboards from blocks"),
           ),
           div(
             class = "flex-shrink-1",
@@ -41,21 +41,31 @@ app_ui <- function(request) {
           div(
             class = "flex-grow-1",
             tags$a(
-              `data-bs-toggle` = "collapse",
-              href = "#createBlock",
+              href = "https://github.com/blockr-org/blockr",
+              target = "_blank",
               class = "btn btn-sm btn-outline-dark ms-2",
-              "Create a block"
+              icon("github"),
+              "Repository"
             )
           )
         ),
         div(
-          id = "createBlock",
-          class = "collapse",
-          createUI("create")
-        ),
-        div(
           class = "flex-shrink-1",
           uiOutput("locker")
+        ),
+        hr(),
+        tags$a(
+          style = "width:9rem",
+          `data-bs-toggle` = "collapse",
+          href = "#createBlock",
+          class = "btn btn-sm btn-outline-dark ms-2",
+          "Create a block"
+        ),
+        div(
+          id = "createBlock",
+          class = "collapse",
+          tags$i("This is currently a work in progress and not fully functional."),
+          createUI("create")
         )
       ),
       title = "blockr",
