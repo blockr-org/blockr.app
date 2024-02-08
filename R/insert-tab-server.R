@@ -8,9 +8,9 @@ insert_tab_server <- function(id, input, output, session){
   observeEvent(input[[remove_id]], {
     sapply(input[[remove_id]], \(x) {
       blockr::rm_workspace_stack(x)
-      blockr.save::rm_tab(x)
     })
     removeTab("nav", id)
+    blockr.save::rm_tab(id)
   })
 }
 
