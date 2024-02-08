@@ -74,6 +74,6 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$removeRow, {
     # TODO change for rm_workspace_stacks when it's merged.
-    sapply(input$removeRow, \(x) blockr::rm_workspace_stack(x))
+    sapply(input$removeRow$stacks, \(x) blockr::rm_workspace_stack(x))
   })
 }
