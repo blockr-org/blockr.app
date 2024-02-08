@@ -415,7 +415,7 @@
       "RemoteRepo": "blockr",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "58043a433adf3fba3802dce503577d00f14eec7d",
+      "RemoteSha": "3234884f4c64e2e49bce30a59422e755b49faa43",
       "Requirements": [
         "DT",
         "blockr.data",
@@ -434,7 +434,7 @@
         "shinyFiles",
         "utils"
       ],
-      "Hash": "c725d6a81845e412e6ef44c0a7328ae4"
+      "Hash": "1783bbcc63570e261124d3b17d769639"
     },
     "blockr.data": {
       "Package": "blockr.data",
@@ -1779,14 +1779,14 @@
       "RemoteRepo": "masonry",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "ac6d99800ff433e1e1fdac5f5e4450958a70f6ab",
+      "RemoteSha": "266f2cda77e849aba44c21c8b46ffb5a167bd468",
       "Requirements": [
         "htmltools",
         "htmlwidgets",
         "jsonlite",
         "shiny"
       ],
-      "Hash": "40e2539388e4de7e896363826e598f79"
+      "Hash": "c7f6b59556183da0436de14e298cfa5c"
     },
     "memoise": {
       "Package": "memoise",
