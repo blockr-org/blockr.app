@@ -234,6 +234,47 @@
       ],
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862"
     },
+    "admiral": {
+      "Package": "admiral",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "admiraldev",
+        "dplyr",
+        "hms",
+        "lifecycle",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "stringr",
+        "tidyr",
+        "tidyselect"
+      ],
+      "Hash": "b257a10edcd3f1f5f4fcbf621134b052"
+    },
+    "admiraldev": {
+      "Package": "admiraldev",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "hms",
+        "lifecycle",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "stringr",
+        "tidyr",
+        "tidyselect"
+      ],
+      "Hash": "4ab0476ca36f502f6cdd2080f8d0f261"
+    },
     "afex": {
       "Package": "afex",
       "Version": "1.3-0",
@@ -374,7 +415,7 @@
       "RemoteRepo": "blockr",
       "RemoteUsername": "blockr-org",
       "RemoteRef": "HEAD",
-      "RemoteSha": "0a4696821d9c48992131c69ab66bfbf6bd72dfd4",
+      "RemoteSha": "58043a433adf3fba3802dce503577d00f14eec7d",
       "Requirements": [
         "DT",
         "blockr.data",
@@ -387,12 +428,13 @@
         "magrittr",
         "memuse",
         "methods",
+        "rlang",
         "shiny",
         "shinyAce",
         "shinyFiles",
         "utils"
       ],
-      "Hash": "54bc5654677ae9d8d865ec0657bff4e7"
+      "Hash": "c725d6a81845e412e6ef44c0a7328ae4"
     },
     "blockr.data": {
       "Package": "blockr.data",
@@ -408,6 +450,28 @@
         "R"
       ],
       "Hash": "4c85ed739e470d00baf2a7c16ac9590c"
+    },
+    "blockr.extra": {
+      "Package": "blockr.extra",
+      "Version": "0.0.1.9000",
+      "Source": "GitHub",
+      "Remotes": "blockr-org/blockr",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "blockr.extra",
+      "RemoteUsername": "blockr-org",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "904650f4cec95805e4a7a6ef6ca4841810abb035",
+      "Requirements": [
+        "admiral",
+        "blockr",
+        "dplyr",
+        "ggiraph",
+        "ggplot2",
+        "rlang",
+        "shiny"
+      ],
+      "Hash": "214d5c3961913ec53d8d1a3b04884859"
     },
     "blockr.save": {
       "Package": "blockr.save",
@@ -1093,6 +1157,26 @@
       ],
       "Hash": "aad38d027d0dd18621e213919c20a65f"
     },
+    "ggiraph": {
+      "Package": "ggiraph",
+      "Version": "0.8.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "ggplot2",
+        "grid",
+        "htmltools",
+        "htmlwidgets",
+        "purrr",
+        "rlang",
+        "stats",
+        "systemfonts",
+        "uuid",
+        "vctrs"
+      ],
+      "Hash": "120f23937aa0311367eb1d94731660f7"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.4.4",
@@ -1649,6 +1733,19 @@
         "stats"
       ],
       "Hash": "f04948de84602afc23bfa9f5427e954d"
+    },
+    "lubridate": {
+      "Package": "lubridate",
+      "Version": "1.9.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "generics",
+        "methods",
+        "timechange"
+      ],
+      "Hash": "680ad542fbcf801442c83a6ac5a2126c"
     },
     "magrittr": {
       "Package": "magrittr",
@@ -2863,6 +2960,17 @@
         "withr"
       ],
       "Hash": "79540e5fcd9e0435af547d885f184fd5"
+    },
+    "timechange": {
+      "Package": "timechange",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "cpp11"
+      ],
+      "Hash": "c5f3c201b931cd6474d17d8700ccb1c8"
     },
     "tinytex": {
       "Package": "tinytex",

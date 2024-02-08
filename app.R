@@ -1,5 +1,6 @@
 # Launch the ShinyApp (Do not remove this comment)
 library(sortable)
+library(blockr.extra)
 library(pharmaversesdtm)
 library(pharmaverseadam)
 
