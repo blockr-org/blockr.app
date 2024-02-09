@@ -73,7 +73,7 @@ new_label_block <- function(data, ...) {
     expr = quote(
       ggplot2::labs(x = .(xlab), y = .(ylab), title = .(title))
     ),
-    class = c("plot_layer_block", "plot_block")
+    class = c("label_block", "plot_layer_block", "plot_block")
   )
 }
  
@@ -294,7 +294,7 @@ new_geompoint_block <- function(data, ...) {
     expr = quote(
       geom_point()
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("geompoint_block", "plot_layer_block", "plot_block"),
     ...
   )
 }
@@ -302,6 +302,23 @@ new_geompoint_block <- function(data, ...) {
 geompoint_block <- function(data, ...) {
   initialize_block(new_geompoint_block(data, ...), data)
 }
+
+new_geomline_block <- function(data, ...) {
+  
+  new_block(
+    fields = list(),
+    expr = quote(
+      ggplot2::geom_line()
+    ),
+    class = c("geomline_block", "plot_layer_block", "plot_block"),
+    ...
+  )
+}
+
+geomline_block <- function(data, ...) {
+  initialize_block(new_geomline_block(data, ...), data)
+}
+
 new_geomsmooth_block <- function(data, ...) {
   
   new_block(
@@ -328,14 +345,14 @@ calculate_p_value <- function(data)
 {
   x = data$mapping$x |> rlang::eval_tidy(data = data$data)
   y = data$mapping$y |> rlang::eval_tidy(data = data$data)
-  cor.test(x = x, y = y)$p.value
+  stats::cor.test(x = x, y = y)$p.value
 }
 
 calculate_R <- function(data) 
 {
   x = data$mapping$x |> rlang::eval_tidy(data = data$data)
   y = data$mapping$y |> rlang::eval_tidy(data = data$data)
-  cor.test(x = x, y = y)$p.value
+  stats::cor.test(x = x, y = y)$p.value
 }
 
 
@@ -357,7 +374,7 @@ new_annotate_block <- function(data, ...) {
                # sprintf("Hello !"),
                hjust = .(hjust), vjust = .(vjust), size = .(size), color = .(color))
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("annotate_block", "plot_layer_block", "plot_block"),
     ...
   )
 }
@@ -376,7 +393,7 @@ new_label_block <- function(data, ...) {
     expr = quote(
       ggplot2::labs(x = .(xlab), y = .(ylab), title = .(title))
     ),
-    class = c("plot_layer_block", "plot_block")
+    class = c("label_block", "plot_layer_block", "plot_block")
   )
   
 }
@@ -395,9 +412,9 @@ new_theme_block <- function(data, ...) {
       )
     ),
     expr = quote(
-      .(theme)()
+      do.call(.(theme), list())
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("theme_block", "plot_layer_block", "plot_block"),
     ...
   )
 }
@@ -416,7 +433,7 @@ new_geomhline_block <- function(data, ...) {
     expr = quote(
       geom_hline(yintercept = .(yintercept), linetype = .(linetype))
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("geomhline_block", "plot_layer_block", "plot_block"),
     ...
   )
 }
@@ -434,7 +451,7 @@ new_geomvline_block <- function(data, ...) {
     expr = quote(
       geom_vline(xintercept = .(xintercept), linetype = .(linetype))
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("geomvline_block", "plot_layer_block", "plot_block"),
     ...
   )
 }
@@ -462,6 +479,16 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
+
+  blockr::register_block(
+    constructor = geomline_block,
+    name = "geomline_block",
+    description = "geompoint_block",
+    classes = c("geomline_block", "plot_block", "plot_layer_block"),
+    input = "data.frame",
+    output = "data.plot"
+  )
+
   blockr::register_block(
     constructor = annotate_block,
     name = "annotate_block",
@@ -470,6 +497,7 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
+
   blockr::register_block(
     constructor = geomsmooth_block,
     name = "geomsmooth_block",
@@ -478,6 +506,7 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
+
   blockr::register_block(
     constructor = geomvline_block,
     name = "geomvline_block",
@@ -486,6 +515,7 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
+
   blockr::register_block(
     constructor = geomhline_block,
     name = "geomhline_block",
@@ -503,6 +533,7 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   ) 
+
   blockr::register_block(
     constructor = theme_block,
     name = "theme_block",
@@ -511,8 +542,6 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
-  
-  
   
   blockr::register_block(
     constructor = ggbetweenstats_block,
