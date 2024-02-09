@@ -3,7 +3,7 @@ library(sortable)
 library(blockr.extra)
 library(pharmaversesdtm)
 library(pharmaverseadam)
-
+library(dplyr)
 pkgload::load_all(
   export_all = FALSE,
   helpers = FALSE,
@@ -12,7 +12,7 @@ pkgload::load_all(
 
 options(
   "golem.app.prod" = TRUE,
-  "blockr.app.board" = pins::board_temp()
+  "blockr.app.board" = pins::board_connect(auth = "envvar")
 )
 
 run_app()
