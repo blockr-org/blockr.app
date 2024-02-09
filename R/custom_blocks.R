@@ -31,6 +31,28 @@ num_cols <- function(data) {
 char_cols <- function(data) {
   colnames(dplyr::select_if(data, \(x) is.character(x) | is.factor(x)))
 }
+
+sel_cols <- function(data){
+  print(data)
+  colnames(data)
+}
+
+new_facet_block <- function(data, ...) {
+  new_block(
+    expr = quote({
+      print(.(facet_var))
+      ggplot2::facet_wrap(.(facet_var))
+    }),
+    fields = list(
+      facet_var = new_select_field(sel_cols(data)[1], sel_cols(data))
+    ),
+    class = c("facet_block", "plot_layer_block", "plot_block")
+  )
+}
+
+facet_block <- function(data, ...) {
+  initialize_block(new_facet_block(data, ...), data)
+}
  
 new_ggscatterstats_block <- function(data, ...) {
   types <- c(
@@ -479,6 +501,15 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
+  
+  blockr::register_block(
+    constructor = facet_block,
+    name = "Facet block",
+    description = "Facet wrap block",
+    classes = c("facet_block", "plot_layer_block", "plot_block"),
+    input = "data.plot",
+    output = "data.plot"
+  )
 
   blockr::register_block(
     constructor = geomline_block,
@@ -577,7 +608,7 @@ register_custom_blocks <- function(){
     input = NA_character_,
     output = "data.frame"
   )
-  
+
   blockr::register_block(
     constructor = adam_block,
     name = "ADAM data block",
