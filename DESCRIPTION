@@ -15,6 +15,7 @@ Imports:
   config (>= 0.3.1),
   golem (>= 0.4.1),
   shiny (>= 1.8.0),
+  dplyr,
   purrr,
   bslib,
   blockr,
@@ -25,7 +26,6 @@ Imports:
   blockr.save
 Suggests:
   pins,
-  dplyr,
   ggplot2,
   pkgload,
   sortable,
