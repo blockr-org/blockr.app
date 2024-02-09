@@ -32,31 +32,35 @@ char_cols <- function(data) {
   colnames(dplyr::select_if(data, \(x) is.character(x) | is.factor(x)))
 }
  
-ggscatterstats_block <- function(data, ...) {
+new_ggscatterstats_block <- function(data, ...) {
   types <- c(
     "parametric",
     "nonparametric",
     "robust",
     "bayes"
   )
- 
+
   new_block(
-    expr = quote({
-      ggstatsplot::ggscatterstats(
+    expr = quote(
+      ggscatterstats(
         x = .(x),
         y = .(y),
         type = .(type),
         conf.level = .(conf.level)
       )
-    }),
+    ),
     fields = list(
       x = new_select_field(num_cols(data)[1], num_cols(data)),
       y = new_select_field(num_cols(data)[2], num_cols(data)),
       type = new_select_field(types[1], types),
-      conf.level = new_numeric_field(0.95, min = 0, max = 1)
+      conf.level = new_numeric_field(0.95, min=0, max=1)
     ),
     class = c("ggscatterstats_block", "plot_block")
   )
+}
+
+ggscatterstats_block <- function(data, ...) {
+  initialize_block(new_ggscatterstats_block(data, ...), data)
 }
  
 new_label_block <- function(data, ...) {
@@ -490,14 +494,6 @@ register_custom_blocks <- function(){
     input = "data.plot",
     output = "data.plot"
   )
-  blockr::register_block(
-    constructor = geomhline_block,
-    name = "geomhline_block",
-    description = "geomhline_block",
-    classes = c("geomhline_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
-  )
 
   blockr::register_block(
     constructor = label_block,
@@ -581,4 +577,3 @@ register_custom_blocks <- function(){
     output = "data.plot"
   )
 }
-
