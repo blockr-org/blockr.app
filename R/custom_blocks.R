@@ -41,14 +41,14 @@ ggscatterstats_block <- function(data, ...) {
   )
  
   new_block(
-    expr = quote(
+    expr = quote({
       ggstatsplot::ggscatterstats(
         x = .(x),
         y = .(y),
         type = .(type),
         conf.level = .(conf.level)
       )
-    ),
+    }),
     fields = list(
       x = new_select_field(num_cols(data)[1], num_cols(data)),
       y = new_select_field(num_cols(data)[2], num_cols(data)),
