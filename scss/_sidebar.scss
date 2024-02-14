@@ -16,4 +16,9 @@ html {
       display: none !important;
     }
   }
+
+  .blockr-registry-list {
+    max-height: 65vh;
+    overflow-y: auto;
+  }
 }
