@@ -487,64 +487,64 @@ geomvline_block <- function(data, ...) {
 register_custom_blocks <- function(){
   blockr::register_block(
     constructor = ggplot_block,
-    name = "ggplot_block",
-    description = "ggplot_block",
+    name = "ggplot",
+    description = "Initialise a ggplot2 plot",
     classes = c("ggplot_block", "plot_block"),
-    input = "data.frame",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
   blockr::register_block(
     constructor = geompoint_block,
-    name = "geompoint_block",
-    description = "geompoint_block",
+    name = "geompoint",
+    description = "Ggplot2 geom point",
     classes = c("geompoint_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
   
   blockr::register_block(
     constructor = facet_block,
-    name = "Facet block",
-    description = "Facet wrap block",
+    name = "facet",
+    description = "Facet wrap a ggplot2 plot",
     classes = c("facet_block", "plot_layer_block", "plot_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
     constructor = geomline_block,
-    name = "geomline_block",
-    description = "geompoint_block",
+    name = "geomline",
+    description = "Gggplot2 geom line",
     classes = c("geomline_block", "plot_block", "plot_layer_block"),
-    input = "data.frame",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
     constructor = annotate_block,
-    name = "annotate_block",
-    description = "annotate_block",
+    name = "annotate",
+    description = "Annotate a ggplot2 plot",
     classes = c("annotate_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
     constructor = geomsmooth_block,
-    name = "geomsmooth_block",
-    description = "geomsmooth_block",
+    name = "geomsmooth",
+    description = "Fit a line to a ggplot2 plot",
     classes = c("geomsmooth_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
     constructor = geomvline_block,
-    name = "geomvline_block",
-    description = "geomvline_block",
+    name = "geomvline",
+    description = "Add a vertical line to a ggplot2 plot",
     classes = c("geomvline_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
@@ -552,8 +552,8 @@ register_custom_blocks <- function(){
     name = "geomhline_block",
     description = "geomhline_block",
     classes = c("geomhline_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
 
   blockr::register_block(
@@ -561,8 +561,8 @@ register_custom_blocks <- function(){
     name = "label plot",
     description = "label plots",
     classes = c("label_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   ) 
 
   blockr::register_block(
@@ -570,31 +570,31 @@ register_custom_blocks <- function(){
     name = "theme_block",
     description = "scatter with stats",
     classes = c("theme_block", "plot_block", "plot_layer_block"),
-    input = "data.plot",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
   
   blockr::register_block(
     constructor = ggbetweenstats_block,
     name = "between stats plot",
-    description = "scatter with stats",
+    description = "Between stats plot",
     classes = c("ggbetweenstats_block", "plot_block"),
-    input = "data.frame",
-    output = "data.plot"
+    input = "plot",
+    output = "plot"
   )
   
   blockr::register_block(
     constructor = corrplot_block,
     name = "correration plot",
-    description = "correration plot",
+    description = "Plot a correlation matrix",
     classes = c("corrplot_block", "plot_block"),
     input = "data.frame",
-    output = "plot"
+    output = "plot_block"
   )
   blockr::register_block(
     constructor = change_from_baseline_block,
-    name = "change_from_baseline_block",
-    description = "change_from_baseline_block",
+    name = "change_from_baseline",
+    description = "Add change from baseline stats",
     classes = c("change_from_baseline_block", "transform_block"),
     input = "data.frame",
     output = "data.frame"
@@ -602,8 +602,8 @@ register_custom_blocks <- function(){
   
   blockr::register_block(
     constructor = sdtm_block,
-    name = "SDTM data block",
-    description = "SDTM datasets",
+    name = "SDTM",
+    description = "SDTM datasets from the pharmaverse",
     classes = c("sdtm_block", "data_block"),
     input = NA_character_,
     output = "data.frame"
@@ -611,8 +611,8 @@ register_custom_blocks <- function(){
 
   blockr::register_block(
     constructor = adam_block,
-    name = "ADAM data block",
-    description = "ADAM datasets",
+    name = "ADAM data",
+    description = "ADAM datasets from the pharmaverse",
     classes = c("adam_block", "data_block"),
     input = NA_character_,
     output = "data.frame"
@@ -634,6 +634,6 @@ register_custom_blocks <- function(){
     description = "scatter with stats",
     classes = c("ggscatterstats_block", "plot_block"),
     input = "data.frame",
-    output = "data.plot"
+    output = "plot"
   )
 }

@@ -94,6 +94,9 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
         return()
       }
 
+      if(length(stack_server$stack))
+        print(stack_server$stack[[length(stack_server$stack)]])
+
       new_blocks()
     }, ignoreInit = TRUE)
 
