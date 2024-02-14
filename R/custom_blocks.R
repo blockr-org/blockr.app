@@ -32,19 +32,19 @@ char_cols <- function(data) {
   colnames(dplyr::select_if(data, \(x) is.character(x) | is.factor(x)))
 }
 
-sel_cols <- function(data){
-  print(data)
-  colnames(data)
-}
-
 new_facet_block <- function(data, ...) {
+  sel_cols <- function(data){
+    colnames(data$data)
+  }
+  sel_cols_1 <- function(data){
+    sel_cols(data)[1]
+  }
   new_block(
-    expr = quote({
-      print(.(facet_var))
-      ggplot2::facet_wrap(.(facet_var))
-    }),
+    expr = quote(
+      ggplot2::facet_wrap(facets = .(facet_var))
+    ),
     fields = list(
-      facet_var = new_select_field(sel_cols(data)[1], sel_cols(data))
+      facet_var = new_select_field(sel_cols_1, sel_cols)
     ),
     class = c("facet_block", "plot_layer_block", "plot_block")
   )
