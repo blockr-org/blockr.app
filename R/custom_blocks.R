@@ -506,7 +506,7 @@ register_custom_blocks <- function(){
     constructor = facet_block,
     name = "facet",
     description = "Facet wrap a ggplot2 plot",
-    classes = c("facet_block", "plot_layer_block", "plot_block"),
+    classes = c("facet_block", "plot_block", "plot_layer_block"),
     input = "plot",
     output = "plot"
   )

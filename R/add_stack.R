@@ -94,9 +94,6 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
         return()
       }
 
-      if(length(stack_server$stack))
-        print(stack_server$stack[[length(stack_server$stack)]])
-
       new_blocks()
     }, ignoreInit = TRUE)
 
@@ -109,6 +106,10 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     blockr.ui::block_list_bind(delay = 500, session = session)
 
     stack_server <- generate_server(stack, new_block = new_block)
+
+    observeEvent(new_block(), {
+      new_blocks(NULL)
+    }, priority = -1)
   })
 
   observeEvent(input[[sprintf("%s_config", grid_id)]], {
