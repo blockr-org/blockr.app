@@ -481,7 +481,37 @@ geomvline_block <- function(data, ...) {
   initialize_block(new_geomvline_block(data, ...), data)
 }
 
+new_geomboxplot_block <- function(data, ...) {
+  new_block(
+    fields = list(    ),
+    expr = quote(
+      geom_boxplot()
+    ),
+    class = c("geomboxplot_block", "plot_layer_block", "plot_block"),
+    ...
+  )
+}
 
+geomboxplot_block <- function(data, ...) {
+  initialize_block(new_geomboxplot_block(data, ...), data)
+}
+
+new_geomjitter_block <- function(data, ...) {
+  new_block(
+    fields = list(
+      width = blockr::new_numeric_field(0.45, min = 0, max = 1)
+    ),
+    expr = quote(
+      geom_jitter(width = .(width))
+    ),
+    class = c("geomjitter_block", "plot_layer_block", "plot_block"),
+    ...
+  )
+}
+
+geomjitter_block <- function(data, ...) {
+  initialize_block(new_geomjitter_block(data, ...), data)
+}
 
 
 register_custom_blocks <- function(){
@@ -498,6 +528,14 @@ register_custom_blocks <- function(){
     name = "geompoint",
     description = "Ggplot2 geom point",
     classes = c("geompoint_block", "plot_block", "plot_layer_block"),
+    input = "plot",
+    output = "plot"
+  )
+  blockr::register_block(
+    constructor = geomboxplot_block,
+    name = "geomboxplot",
+    description = "Ggplot2 geom boxplot",
+    classes = c("geomboxplot_block", "plot_block", "plot_layer_block"),
     input = "plot",
     output = "plot"
   )
