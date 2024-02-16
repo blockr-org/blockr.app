@@ -352,7 +352,7 @@ new_geomsmooth_block <- function(data, ...) {
     expr = quote(
       geom_smooth(color = .(color), method = .(method), se = .(se))
     ),
-    class = c("plot_layer_block", "plot_block"),
+    class = c("geomsmooth_block",   "plot_layer_block", "plot_block"),
     ...
   )
 }
