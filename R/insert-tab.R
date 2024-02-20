@@ -66,7 +66,7 @@ insert_block_tab <- \(title, input, output, session, locked){
         )
       ),
       h2("Blocks"),
-      blockr.ui::blockListUI(list_id)
+      blockr.ui::blockListUI(list_id, max_height = "35rem")
     )
   )
 
