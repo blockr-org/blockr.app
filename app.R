@@ -1,10 +1,10 @@
 # Launch the ShinyApp (Do not remove this comment)
-library(ggplot2)
 library(sortable)
 library(blockr.extra)
-library(pharmaversesdtm)
-library(pharmaverseadam)
-library(ggstatsplot)
+library(blockr.ggplot2)
+library(blockr.pharmaverseadam)
+library(blockr.pharmaversesdtm)
+library(blockr.ggstatsplot)
 library(dplyr)
 pkgload::load_all(
   export_all = TRUE,

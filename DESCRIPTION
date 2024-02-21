@@ -30,13 +30,18 @@ Suggests:
   pkgload,
   sortable,
   corrplot,
-  ggstatsplot,
+  blockr.ggstatsplot,
   pharmaversesdtm,
-  pharmaverseadam
+  pharmaverseadam,
+  blockr.ggplot2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
 Remotes:
+  blockr-org/blockr.ggstatsplot,
+  blockr-org/blockr.pharmaverseadam,
+  blockr-org/blockr.pharmaversesdtm,
+  blockr-org/blockr.ggplot2,
   blockr-org/blockr.ui,
   blockr-org/masonry,
   blockr-org/blockr,
