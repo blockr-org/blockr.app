@@ -15,6 +15,7 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
       )
       restore_tab_stacks(conf, id, list_id)
       masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
+      session$sendCustomMessage("restored-tab", list(id = grid_id))
     })
 
     insert_tab_servers(conf, input, output, session)

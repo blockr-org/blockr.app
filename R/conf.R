@@ -17,7 +17,7 @@ save_conf <- \(env, session, query){
     cat("Saving dashboard to pin:", name, "\n")
     file <- tempfile()
     on.exit(unlink(file))
-    ...write(env, file)
+    ...write(env, file = file)
     pins::pin_upload(board, file, name = name)
     return()
   }
@@ -56,20 +56,10 @@ get_conf <- \(session, query){
   ...read(file)
 }
 
-...parse <- function(data, ...){ # nolint
-  jsonlite::parse_json(data, ...)
-}
-
 ...read <- function(file){ # nolint
-  jsonlite::read_json(file)
+  get(load(file))
 }
 
 ...write <- function(data, file, ...){ # nolint
-  jsonlite::write_json(
-    data, 
-    file, 
-    dataframe = "rows", 
-    auto_unbox = TRUE,
-    pretty = TRUE
-  )
+  save(data, file = file)
 }
