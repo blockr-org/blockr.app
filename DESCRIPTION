@@ -45,4 +45,5 @@ Remotes:
   blockr-org/blockr.ui,
   blockr-org/masonry,
   blockr-org/blockr,
-  blockr-org/blockr.save
+  blockr-org/blockr.save,
+  blockr-org/blockr.echarts4r
