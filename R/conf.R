@@ -18,6 +18,7 @@ save_conf <- \(env, session, query){
     file <- tempfile()
     on.exit(unlink(file))
     ...write(env, file = file)
+    name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     pins::pin_upload(board, file, name = name)
     return()
   }
@@ -41,6 +42,7 @@ get_conf <- \(session, query){
   }
 
   if(!is.null(board)){
+    name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     cat("Restoring dashboard from pin:", name, "\n")
     data <- pins::pin_download(board, name) |>
       ...read()

@@ -43,7 +43,6 @@ lbl <- function(var, label) structure(var, label = label)
 
 add_change_from_baseline <- function(data, df_name = "LB") {
   if(nrow(data) == 0) return(data)
-  # checkmate::assert_data_frame(data, min.rows = 1)
   checkmate::assert_string(df_name, null.ok = TRUE)
   
   make_name <- function(x) paste0(df_name, x)
