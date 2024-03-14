@@ -1,4 +1,4 @@
-restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain()){
+restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain(), query){
   purrr::walk(conf$tabs$tabs, \(tab) {
     id <- tab$id
     grid_id <- sprintf("%sGrid", id)
