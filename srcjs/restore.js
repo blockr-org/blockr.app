@@ -1,6 +1,5 @@
 $(() => {
   window.Shiny.addCustomMessageHandler("restored-tab", (msg) => {
-    console.log(msg);
     setTimeout(() => {
       $(`#${msg.id}`)
         .find(".stack")

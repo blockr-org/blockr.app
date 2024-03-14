@@ -12,7 +12,7 @@ const lockDash = () => {
   $(".remove-tab").hide();
 
   const $layouts = $(".bslib-sidebar-layout");
-  $(".tab-title").off("click");
+  $(".tab-title").off();
 
   $layouts.find(".sidebar").hide();
   $layouts.find(".collapse-toggle").trigger("click");

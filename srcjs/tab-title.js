@@ -3,12 +3,12 @@ $(() => {
     if (!e.message["shiny-insert-tab"]) return;
 
     setTimeout(() => {
-      title();
+      title_();
     }, 1000);
   });
 });
 
-const title = () => {
+const title_ = () => {
   const $title = $(".tab-title");
 
   $title.off("click");
@@ -37,6 +37,6 @@ const handleStackTitle = (title) => {
     const $nav = $(document).find(`[data-value='${title}']`);
     $nav.attr("data-value", newTitle);
 
-    title();
+    title_();
   });
 };
