@@ -18,7 +18,7 @@ save_conf <- \(env, session, query){
     file <- tempfile()
     on.exit(unlink(file))
     ...write(env, file = file)
-    name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
+    # name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     pins::pin_upload(board, file, name = name)
     return()
   }

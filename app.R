@@ -8,6 +8,7 @@ library(blockr.pharmaversesdtm)
 library(blockr.ggstatsplot)
 library(blockr.echarts4r)
 library(dplyr)
+
 pkgload::load_all(
   export_all = TRUE,
   helpers = FALSE,
@@ -16,8 +17,9 @@ pkgload::load_all(
 
 options(
   "golem.app.prod" = TRUE,
-  "blockr.app.prefix" = "me",
-  "blockr.app.board" = pins::board_connect(auth = "envvar")
+  "blockr.app.prefix" = "me"
+  # "blockr.app.board" = pins::board_connect(auth = "envvar")
+  # "blockr.app.board" = pins::board_temp()
 )
 
 run_app()

@@ -19,6 +19,7 @@ Imports:
   purrr,
   bslib,
   blockr,
+  waiter,
   masonry,
   jsonlite,
   blockr.ui,
