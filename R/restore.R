@@ -2,8 +2,9 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
   waiter::waiter_show(
     html = div(
       waiter::spin_1(),
-      h1("Restoring workspace")
-    )
+      h1("Restoring workspace", class = "text-dark")
+    ),
+    color = "#fff"
   )
   purrr::walk(conf$tabs$tabs, \(tab) {
     id <- tab$id
@@ -84,6 +85,13 @@ restore_tab_stacks <- function(conf, tab_id, list_id, session){
       })
     })
 
+  # we have to render content and dependencies with
+  # processDeps (in R) and renderAsync (in JS) in shiny
+  # asynchronous render means we cannot be sure that,
+  # at the time we want to add items, that the rows
+  # have been added to the DOM. We have to wait for
+  # the count to be equal to the number of rows
+  # before we can add items.
   observeEvent(count(), {
     if(count() != n)
       return()
