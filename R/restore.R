@@ -1,11 +1,4 @@
 restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain(), query){
-  waiter::waiter_show(
-    html = div(
-      waiter::spin_1(),
-      h1("Restoring workspace", class = "text-dark")
-    ),
-    color = "#fff"
-  )
   purrr::walk(conf$tabs$tabs, \(tab) {
     id <- tab$id
     grid_id <- sprintf("%sGrid", id)

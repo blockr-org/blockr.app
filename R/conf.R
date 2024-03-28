@@ -41,6 +41,14 @@ get_conf <- \(session, query){
     return()
   }
 
+  waiter::waiter_show(
+    html = div(
+      waiter::spin_1(),
+      h1("Restoring workspace", class = "text-dark")
+    ),
+    color = "#fff"
+  )
+
   if(!is.null(board)){
     name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     cat("Restoring dashboard from pin:", name, "\n")
