@@ -12,12 +12,12 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
       restore_tab_stacks(conf, id, list_id, session)
       masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
       session$sendCustomMessage("restored-tab", list(id = grid_id))
-      waiter::waiter_hide()
     })
 
     insert_tab_servers(conf, input, output, session)
     handle_add_stack(id, input, session)
   })
+  waiter::waiter_hide()
 }
 
 restore_tab_stacks <- function(conf, tab_id, list_id, session){
