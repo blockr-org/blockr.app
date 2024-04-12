@@ -35,7 +35,7 @@ get_conf <- \(session, query){
   waiter::waiter_show(
     html = div(
       waiter::spin_1(),
-      h1("Restoring workspace", class = "text-dark")
+      h1("Loading application", class = "text-dark")
     ),
     color = "#fff"
   )
@@ -48,6 +48,13 @@ get_conf <- \(session, query){
     waiter::waiter_hide()
     return()
   }
+
+  waiter::waiter_update(
+    html = div(
+      waiter::spin_1(),
+      h1("Loading application", class = "text-dark")
+    )
+  )
 
   if(!is.null(board)){
     name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
