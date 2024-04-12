@@ -48,6 +48,7 @@ app_server <- function(input, output, session) {
     if(is.null(query$locked))
       return()
     
+    cat("locking dashboard\n")
     locked(TRUE)
   })
 

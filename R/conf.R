@@ -32,15 +32,6 @@ save_conf <- \(env, session, query){
 }
 
 get_conf <- \(session, query){
-  blockr.save::reset_conf()
-  board <- getOption("blockr.app.board")
-
-  name <- query$name
-  if(!length(name)){
-    cat("No name given, not restoring\n")
-    return()
-  }
-
   waiter::waiter_show(
     html = div(
       waiter::spin_1(),
@@ -48,6 +39,15 @@ get_conf <- \(session, query){
     ),
     color = "#fff"
   )
+  blockr.save::reset_conf()
+  board <- getOption("blockr.app.board")
+
+  name <- query$name
+  if(!length(name)){
+    cat("No name given, not restoring\n")
+    waiter::waiter_hide()
+    return()
+  }
 
   if(!is.null(board)){
     name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
