@@ -32,6 +32,7 @@ save_conf <- \(env, session, query){
 }
 
 get_conf <- \(session, query){
+  blockr:::clear_workspace()
   waiter::waiter_show(
     html = div(
       waiter::spin_1(),
