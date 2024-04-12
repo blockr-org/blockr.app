@@ -101,7 +101,8 @@ restore_tab_stacks <- function(conf, tab_id, list_id, session){
           sprintf("#%sGrid", tab_id), 
           row,
           item = generate_ui(stack),
-          position = "end"
+          position = "end",
+          mason = FALSE
         )
 
         new_block <- eventReactive(new_blocks(), {

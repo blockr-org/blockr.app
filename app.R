@@ -16,9 +16,9 @@ pkgload::load_all(
 )
 
 options(
-  "golem.app.prod" = TRUE,
-  "blockr.app.prefix" = "me",
-  "blockr.app.board" = pins::board_connect(auth = "envvar")
+  "golem.app.prod" = TRUE
+  # "blockr.app.prefix" = "me",
+  # "blockr.app.board" = pins::board_connect(auth = "envvar")
 )
 
 run_app()
