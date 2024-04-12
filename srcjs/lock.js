@@ -33,6 +33,7 @@ $(() => {
   $(document).on("shiny:message", onTabRendered);
   $(document).on("blockr:lock", (e) => {
     locked = e.detail.locked;
+    console.log(locked);
     lockDash();
   });
 
