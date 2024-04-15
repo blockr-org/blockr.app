@@ -15,8 +15,19 @@ save_conf <- \(env, session, query){
 
   if(!is.null(board)){
     cat("Saving dashboard to pin:", name, "\n")
-    make_path(name) |>
-      ...write()
+    file <- tempfile()
+    on.exit(unlink(file))
+    ...write(env, file = file)
+    # name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
+    pins::pin_upload(board, file, name = name)
+    return()
+  }
+
+  if(length(name)){
+    path <- make_path(name)
+    cat("Saving dashboard to file:", path, "\n")
+    ...write(env, path)
+    system2("chmod", c("777", path))
     return()
   }
 
@@ -29,35 +40,36 @@ save_conf <- \(env, session, query){
 }
 
 get_conf <- \(session, query){
-  blockr:::clear_workspace()
-  waiter::waiter_show(
-    html = div(
-      waiter::spin_1(),
-      h1("Loading application", class = "text-dark")
-    ),
-    color = "#fff"
-  )
   blockr.save::reset_conf()
   board <- getOption("blockr.app.board")
 
   name <- query$name
   if(!length(name)){
     cat("No name given, not restoring\n")
-    waiter::waiter_hide()
     return()
   }
 
-  waiter::waiter_update(
+  waiter::waiter_show(
     html = div(
       waiter::spin_1(),
-      h1("Loading application", class = "text-dark")
-    )
+      h1("Restoring workspace", class = "text-dark")
+    ),
+    color = "#fff"
   )
 
   if(!is.null(board)){
+    name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     cat("Restoring dashboard from pin:", name, "\n")
-    data <- make_path(name) |>
+    data <- pins::pin_download(board, name) |>
       ...read()
+
+    return(data)
+  }
+
+  if(length(name)){
+    path <- make_path(name)
+    cat("Restoring dashboard from file:", path, "\n")
+    data <- ...read(path)
     return(data)
   }
 
@@ -75,11 +87,4 @@ get_conf <- \(session, query){
 
 ...write <- function(data, file, ...){ # nolint
   save(data, file = file)
-}
-
-make_path <- function(name){
-  file.path(
-    getOption("blockr.app.dir", getwd()),
-    name
-  )
 }
