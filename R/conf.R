@@ -88,3 +88,10 @@ get_conf <- \(session, query){
 ...write <- function(data, file, ...){ # nolint
   save(data, file = file)
 }
+
+make_path <- function(file){
+  file.path(
+    getOption("blockr.app.dir"),
+    file
+  )
+}
