@@ -63,7 +63,7 @@ app_server <- function(input, output, session) {
     updateQueryString(paste0("?", query))
     locked(TRUE)
     blockr.save::set_blockr()
-    save_conf(blockr.save::get_env(), session, getOption("query"))
+    save_conf(blockr.save::get_env(), session, list(name = input$lock$title))
   })
 
   observeEvent(locked(), {
