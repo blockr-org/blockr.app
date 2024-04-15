@@ -15,11 +15,8 @@ save_conf <- \(env, session, query){
 
   if(!is.null(board)){
     cat("Saving dashboard to pin:", name, "\n")
-    file <- tempfile()
-    on.exit(unlink(file))
-    ...write(env, file = file)
-    # name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
-    pins::pin_upload(board, file, name = name)
+    make_path(name) |>
+      ...write()
     return()
   }
 
@@ -58,11 +55,9 @@ get_conf <- \(session, query){
   )
 
   if(!is.null(board)){
-    name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     cat("Restoring dashboard from pin:", name, "\n")
-    data <- pins::pin_download(board, name) |>
+    data <- make_path(name) |>
       ...read()
-
     return(data)
   }
 
@@ -80,4 +75,11 @@ get_conf <- \(session, query){
 
 ...write <- function(data, file, ...){ # nolint
   save(data, file = file)
+}
+
+make_path <- function(name){
+  file.path(
+    getOption("blockr.app.dir", getwd()),
+    name
+  )
 }
