@@ -7,6 +7,11 @@ save_conf <- \(env, session, query){
     return()
   }
 
+  if(length(query$locked)){
+    cat("Dashboard locked, not saving\n")
+    return()
+  }
+
   if(!length(env$workspace)){
     cat("No stacks on workspace probably an error, not saving\n")
     return()
