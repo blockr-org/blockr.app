@@ -1,10 +1,4 @@
 save_conf <- \(env, session, query){
-  on.exit({
-    cat("Resetting config\n")
-    blockr.save::reset_conf()
-    blockr:::clear_workspace()
-  })
-
   board <- getOption("blockr.app.board")
 
   name <- query$name
@@ -41,6 +35,7 @@ save_conf <- \(env, session, query){
 
 get_conf <- \(session, query){
   blockr.save::reset_conf()
+  blockr:::clear_workspace()
   board <- getOption("blockr.app.board")
 
   name <- query$name
