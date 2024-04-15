@@ -6,7 +6,6 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     list_id <- sprintf("%sList", id)
 
     on.exit({
-      cat("Restoring masonry\n")
       masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
       masonry::masonry_restore_config(grid_id, tab$masonry, delay = 1.5 * 1000)
       restore_tab_stacks(conf, id, list_id, session)
@@ -37,6 +36,8 @@ restore_tab_stacks <- function(conf, tab_id, list_id, session){
         })
     }) |>
     purrr::flatten()
+
+  cat("Restoring", length(grid), "stacks on tab", tab_id, "\n")
 
   # restore stacks
   ws <- conf$workspace
@@ -97,6 +98,7 @@ restore_tab_stacks <- function(conf, tab_id, list_id, session){
         if(is.null(row))
           return()
 
+        cat("Restoring stack", name, "on tab", tab_id, "on row", row, "\n")
         masonry::masonry_add_item(
           sprintf("#%sGrid", tab_id), 
           row,

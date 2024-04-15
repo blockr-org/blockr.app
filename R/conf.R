@@ -7,30 +7,24 @@ save_conf <- \(env, session, query){
     return()
   }
 
+  if(!length(env$workspace)){
+    cat("No stacks on workspace probably an error, not saving\n")
+    return()
+  }
+
   if(!is.null(board)){
     cat("Saving dashboard to pin:", name, "\n")
     file <- tempfile()
     on.exit(unlink(file))
     ...write(env, file = file)
-    # name <- sprintf("%s/%s", getOption("blockr.app.prefix"), name)
     pins::pin_upload(board, file, name = name)
     return()
   }
 
-  if(length(name)){
-    path <- make_path(name)
-    cat("Saving dashboard to file:", path, "\n")
-    ...write(env, path)
-    system2("chmod", c("777", path))
-    return()
-  }
-
-  file <- ".blockr"
-  if(length(name))
-    file <- sprintf(".%s", name)
-
-  cat("Saving dashboard to file:", file, "\n")
-  ...write(env, file, pretty = TRUE)
+  path <- make_path(name)
+  cat("Saving dashboard to file:", path, "\n")
+  ...write(env, path)
+  system2("chmod", c("777", path))
 }
 
 get_conf <- \(session, query){
@@ -61,32 +55,25 @@ get_conf <- \(session, query){
     return(data)
   }
 
-  if(length(name)){
-    path <- make_path(name)
-    cat("Restoring dashboard from file:", path, "\n")
-    data <- ...read(path)
-    return(data)
-  }
-
-  file <- ".blockr"
-  if(length(query$name))
-    file <- sprintf(".%s", query$name)
-
-  cat("Restoring dashboard from file:", name, "\n")
-  ...read(file)
+  path <- make_path(name)
+  cat("Restoring dashboard from file:", path, "\n")
+  ...read(path)
 }
 
 ...read <- function(file){ # nolint
-  get(load(file))
+  data <- get(load(file))
+  cat("Reading", length(data$workspace), "stacks\n")
+  return(data)
 }
 
 ...write <- function(data, file, ...){ # nolint
+  cat("Saving", length(data$workspace), "stacks\n")
   save(data, file = file)
 }
 
 make_path <- function(file){
   file.path(
-    getOption("blockr.app.dir"),
+    getOption("blockr.app.dir", getwd()),
     file
   )
 }

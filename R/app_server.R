@@ -62,7 +62,6 @@ app_server <- function(input, output, session) {
       utils::URLencode()
     updateQueryString(paste0("?", query))
     locked(TRUE)
-    save_conf(blockr.save::get_env(), session, getOption("query"))
   })
 
   observeEvent(locked(), {
