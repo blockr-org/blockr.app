@@ -6,11 +6,7 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     list_id <- sprintf("%sList", id)
 
     on.exit({
-      masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
-      masonry::masonry_restore_config(grid_id, tab$masonry, delay = 1.5 * 1000)
-      restore_tab_stacks(conf, id, list_id, session)
-      masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
-      session$sendCustomMessage("restored-tab", list(id = grid_id))
+      restore_tab_stacks(conf, tab, id, list_id, session)
     })
 
     insert_tab_servers(conf, input, output, session)
@@ -19,7 +15,7 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
   waiter::waiter_hide()
 }
 
-restore_tab_stacks <- function(conf, tab_id, list_id, session){
+restore_tab_stacks <- function(conf, tab, tab_id, list_id, session){
   grid <- conf$tabs$tabs[[tab_id]]$masonry$grid
 
   stacks <- grid |> 
@@ -120,6 +116,12 @@ restore_tab_stacks <- function(conf, tab_id, list_id, session){
 
         server <- generate_server(stack, new_block = new_block)
       })
+
+    grid_id <- sprintf("%sGrid", tab_id)
+    masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
+    masonry::masonry_restore_config(grid_id, tab$masonry, delay = 1.5 * 1000)
+    masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
+    session$sendCustomMessage("restored-tab", list(id = grid_id))
   })
 
 }
