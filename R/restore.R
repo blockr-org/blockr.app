@@ -1,21 +1,23 @@
 restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain(), query){
+  i <- 0L
   purrr::walk(conf$tabs$tabs, \(tab) {
+    i <<- i + 1L
     id <- tab$id
     grid_id <- sprintf("%sGrid", id)
     add_id <- sprintf("%sAdd", id)
     list_id <- sprintf("%sList", id)
 
+    last <- if(i == length(conf$tabs$tabs)) TRUE else FALSE
     on.exit({
-      restore_tab_stacks(conf, tab, id, list_id, session)
+      restore_tab_stacks(conf, tab, id, list_id, session, last)
     })
 
     insert_tab_servers(conf, input, output, session)
     handle_add_stack(id, input, session)
   })
-  waiter::waiter_hide()
 }
 
-restore_tab_stacks <- function(conf, tab, tab_id, list_id, session){
+restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
   grid <- conf$tabs$tabs[[tab_id]]$masonry$grid
 
   stacks <- grid |> 
@@ -114,7 +116,11 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session){
           new_blocks()
         }, ignoreInit = TRUE)
 
+        Sys.sleep(.5)
         server <- generate_server(stack, new_block = new_block)
+
+        if(last)
+          waiter::waiter_hide()
       })
 
     grid_id <- sprintf("%sGrid", tab_id)
