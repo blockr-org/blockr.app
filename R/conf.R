@@ -1,6 +1,11 @@
 save_conf <- \(env, session, query){
   board <- getOption("blockr.app.board")
 
+  if(!is.null(query$autosave) && query$autosave == "false"){
+    cat("Autosave disabled, not saving\n")
+    return()
+  }
+
   name <- query$name
   if(!length(name)){
     cat("No name given, not saving\n")
