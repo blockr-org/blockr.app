@@ -1,7 +1,7 @@
 $(() => {
   setTimeout(() => {
     $("#add-tab-form").prepend(
-      `<div class="form-check form-switch w-50">
+      `<div class="auto-save form-check form-switch w-50">
         <input id="autosave" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
         <label class="form-check-label" for="flexSwitchCheckDefault">Auto save</label>
       </div>`,
