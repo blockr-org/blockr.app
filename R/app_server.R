@@ -18,24 +18,6 @@ app_server <- function(input, output, session) {
     )
   })
 
-  observe({
-    query <- parseQueryString(session$clientData$url_search)
-    query$autosave <- tolower(FALSE)
-    options(query = query)
-    query <- paste0(names(query), "=", query, collapse = "&") |>
-      utils::URLencode()
-    updateQueryString(paste0("?", query))
-  })
-
-  observeEvent(input$autosave, {
-    query <- parseQueryString(session$clientData$url_search)
-    query$autosave <- tolower(input$autosave)
-    options(query = query)
-    query <- paste0(names(query), "=", query, collapse = "&") |>
-      utils::URLencode()
-    updateQueryString(paste0("?", query))
-  })
-
   output$locker <- renderUI({
     if (locked()) return("")
     query <- parseQueryString(session$clientData$url_search)
