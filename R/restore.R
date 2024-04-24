@@ -59,8 +59,8 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
   })
 
   # restore rows
-  n <- length(grid)
-  count <- reactiveVal(0L)
+  n_rows <- length(grid)
+  count_rows <- reactiveVal(0L)
   grid |> 
     lapply(\(x) {
       event_id <- sprintf("%sRowAdd", x$id)
@@ -73,7 +73,7 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
       )
 
       observeEvent(session$input[[event_id]], {
-        count(count() + 1L)
+        count_rows(count_rows() + 1L)
       })
     })
 
@@ -84,8 +84,10 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
   # have been added to the DOM. We have to wait for
   # the count to be equal to the number of rows
   # before we can add items.
-  observeEvent(count(), {
-    if(count() != n)
+  n_stacks <- length(stacks)
+  count_items <- reactiveVal(0L)
+  observeEvent(count_rows(), {
+    if(count_rows() != n_rows)
       return()
 
     ws |>
@@ -96,14 +98,36 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
         if(is.null(row))
           return()
 
-        cat("Restoring stack", name, "on tab", tab_id, "on row", row, "\n")
+        cat("Restoring stack UI", name, "on tab", tab_id, "on row", row, "\n")
+        ev_id <- sprintf("%sItemRendered", name)
         masonry::masonry_add_item(
           sprintf("#%sGrid", tab_id), 
           row,
           item = generate_ui(stack),
           position = "end",
-          mason = FALSE
+          mason = FALSE,
+          event_id = ev_id
         )
+
+        observeEvent(session$input[[ev_id]], {
+          count_items(count_items() + 1L)
+        })
+      })
+  })
+
+  observeEvent(count_items(), {
+    if(count_items() != n_stacks)
+      return()
+
+    ws |>
+      purrr::map2(names(ws), \(stack, name) {
+        row <- get_stack_row_index(stacks, name)
+
+        # this means the stack is not on this tab, we skip
+        if(is.null(row))
+          return()
+
+        cat("Restoring stack server", name, "on tab", tab_id, "on row", row, "\n")
 
         new_block <- eventReactive(new_blocks(), {
           if(is.null(new_blocks()))
@@ -116,11 +140,7 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
           new_blocks()
         }, ignoreInit = TRUE)
 
-        Sys.sleep(.5)
         server <- generate_server(stack, new_block = new_block)
-
-        if(last)
-          waiter::waiter_hide()
       })
 
     grid_id <- sprintf("%sGrid", tab_id)
@@ -128,6 +148,7 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
     masonry::masonry_restore_config(grid_id, tab$masonry, delay = 1.5 * 1000)
     masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
     session$sendCustomMessage("restored-tab", list(id = grid_id))
+    waiter::waiter_hide()
   })
 
 }
