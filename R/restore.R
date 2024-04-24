@@ -1,6 +1,6 @@
 restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain(), query){
   i <- 0L
-  purrr::walk(conf$tabs$tabs, \(tab) {
+  all_done <- lapply(conf$tabs$tabs, \(tab) {
     i <<- i + 1L
     id <- tab$id
     grid_id <- sprintf("%sGrid", id)
@@ -8,12 +8,22 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     list_id <- sprintf("%sList", id)
 
     last <- if(i == length(conf$tabs$tabs)) TRUE else FALSE
-    on.exit({
-      restore_tab_stacks(conf, tab, id, list_id, session, last)
-    })
 
     insert_tab_servers(conf, input, output, session)
     handle_add_stack(id, input, session)
+    restore_tab_stacks(conf, tab, id, list_id, session, last)
+  })
+
+  observe({
+    ad <- all_done |>
+      sapply(\(r) r())
+
+    if(!all(ad))
+      return()
+    
+    cat("All done\n")
+    restore_stacks_server(conf)
+    waiter::waiter_hide()
   })
 }
 
@@ -119,38 +129,18 @@ restore_tab_stacks <- function(conf, tab, tab_id, list_id, session, last){
     if(count_items() != n_stacks)
       return()
 
-    ws |>
-      purrr::map2(names(ws), \(stack, name) {
-        row <- get_stack_row_index(stacks, name)
-
-        # this means the stack is not on this tab, we skip
-        if(is.null(row))
-          return()
-
-        cat("Restoring stack server", name, "on tab", tab_id, "on row", row, "\n")
-
-        new_block <- eventReactive(new_blocks(), {
-          if(is.null(new_blocks()))
-            return()
-
-          # check that it's the correct stack
-          if(attr(stack, "name") != new_blocks()$target)
-            return()
-
-          new_blocks()
-        }, ignoreInit = TRUE)
-
-        server <- generate_server(stack, new_block = new_block)
-      })
-
     grid_id <- sprintf("%sGrid", tab_id)
     masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
     masonry::masonry_restore_config(grid_id, tab$masonry, delay = 1.5 * 1000)
     masonry::masonry_get_config(grid_id, delay = 1.5 * 1000)
     session$sendCustomMessage("restored-tab", list(id = grid_id))
-    waiter::waiter_hide()
   })
 
+  done <- eventReactive(count_items(), {
+    count_items() == n_stacks
+  })
+
+  return(done)
 }
 
 get_stack_row_index <- function(stacks, stack_name){
@@ -160,4 +150,28 @@ get_stack_row_index <- function(stacks, stack_name){
     }) |>
     purrr::map("row") |>
     unlist()
+}
+
+restore_stacks_server <- function(conf){
+  ws <- conf$workspace
+  ws$title <- NULL
+  ws$settings <- NULL
+
+  # we should reorder stacks to have them
+  # in the order they should be called
+  restore_stack_server_recurse(ws, 1)
+}
+
+restore_stack_server_recurse <- function(stacks, index){
+  if(index > length(stacks))
+    return()
+
+  cat("Restoring stack server", attr(stack, "stack"), "\n")
+  server <- generate_server(stacks[[index]])
+
+  observeEvent(server$stack, {
+    if(is.null(attr(server$stack, "result")))
+      return()
+    restore_stack_server_recurse(stacks, index + 1)
+  })
 }
