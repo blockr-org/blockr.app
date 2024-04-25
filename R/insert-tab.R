@@ -9,7 +9,7 @@ insert_block_tab <- \(title, input, output, session, locked){
     masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
   })
 
-  tab <- bslib::layout_sidebar(
+  tab <- div(
     div(
       class = "d-flex",
       div(
@@ -17,6 +17,27 @@ insert_block_tab <- \(title, input, output, session, locked){
         h1(
           title,
           class = "tab-title"
+        )
+      ),
+      div(
+        class = "flex-grow-1",
+        actionButton(
+          add_id,
+          "row",
+          icon = icon("plus"),
+          class = "btn-sm add-row"
+        )
+      ),
+      div(
+        class = "flex-shrink-1 p-1",
+        blockr.ui::addStackUI(
+          add_id, 
+          content = span(
+            class = "rounded border border-secondary px-2 py-1 text-muted",
+            icon("grip"), 
+            "Stack"
+          ),
+          target = ".masonry-row"
         )
       ),
       div(
@@ -39,34 +60,6 @@ insert_block_tab <- \(title, input, output, session, locked){
           margin = ".5rem"
         )
       )
-    ),
-    sidebar = bslib::sidebar(
-      div(
-        class = "d-flex",
-        div(
-          class = "flex-grow-1",
-          actionButton(
-            add_id,
-            "row",
-            icon = icon("plus"),
-            class = "btn-sm add-row"
-          )
-        ),
-        div(
-          class = "flex-shrink-1 p-1",
-          blockr.ui::addStackUI(
-            add_id, 
-            content = span(
-              class = "rounded border border-secondary px-2 py-1 text-muted",
-              icon("grip"), 
-              "Stack"
-            ),
-            target = ".masonry-row"
-          )
-        )
-      ),
-      h2("Blocks"),
-      blockr.ui::blockListUI(list_id, max_height = "35rem")
     )
   )
 
