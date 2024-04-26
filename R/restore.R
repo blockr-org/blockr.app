@@ -21,7 +21,7 @@ restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDoma
     if(!all(ad))
       return()
     
-    cat("All done\n")
+    cat("All done restorning stacks UIs\n")
     restore_stacks_server(conf)
     waiter::waiter_hide()
   })
@@ -159,6 +159,7 @@ restore_stacks_server <- function(conf){
 
   # we should reorder stacks to have them
   # in the order they should be called
+  ws <- reorder_stacks(ws)
   restore_stack_server_recurse(ws, 1)
 }
 
@@ -166,7 +167,7 @@ restore_stack_server_recurse <- function(stacks, index){
   if(index > length(stacks))
     return()
 
-  cat("Restoring stack server", attr(stack, "stack"), "\n")
+  cat("Restoring stack server", attr(stack, "name"), "\n")
   server <- generate_server(stacks[[index]])
 
   observeEvent(server$stack, {
@@ -174,4 +175,75 @@ restore_stack_server_recurse <- function(stacks, index){
       return()
     restore_stack_server_recurse(stacks, index + 1)
   })
+}
+
+reorder_stacks <- function(ws){
+  tree <- ws |>
+    lapply(\(stack) {
+      depends <- stack |>
+        sapply(\(block) {
+          if(inherits(block, "result_block"))
+            return(attr(block$stack$value, "name"))
+
+          if(inherits(block, "join_block"))
+            return(attr(block$y$value, "name"))
+
+          return()
+        })
+
+      depends[which(!sapply(depends, is.null))] |>
+        unlist() |>
+        unique()
+    })
+
+  sorted <- sort_with_dependencies(tree)
+
+  cat("Restoring stacks in following order:\n")
+  print(sorted)
+
+  sorted |>
+    names() |>
+    lapply(\(name) {
+      ws[[name]]
+    })
+}
+
+topological_sort <- function(graph) {
+  visited <- vector("logical", length(graph))
+  visited[] <- FALSE
+  
+  order_stack <- vector("list")
+  
+  dfs <- function(node) {
+    visited[node] <<- TRUE
+    
+    for (neighbor in graph[[node]]) {
+      if (!visited[neighbor]) {
+        dfs(neighbor)
+      }
+    }
+    order_stack <<- c(order_stack, list(node))
+  }
+  
+  for (node in 1:length(graph)) {
+    if (!visited[node]) {
+      dfs(node)
+    }
+  }
+  
+  return(rev(order_stack))
+}
+
+sort_with_dependencies <- function(x) {
+  dependencies <- lapply(x, function(val) if (!is.null(val)) val else character(0))
+  
+  graph <- lapply(dependencies, function(dep) {
+    match(dep, names(x))
+  })
+  
+  sorted_order <- unlist(topological_sort(graph))
+  
+  sorted_x <- x[sorted_order]
+  
+  rev(sorted_x)
 }
