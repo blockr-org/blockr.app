@@ -196,7 +196,16 @@ reorder_stacks <- function(ws){
         unique()
     })
 
-  sorted <- sort_with_dependencies(tree)
+  sorted <- tryCatch(
+    sort_with_dependencies(tree),
+    error = \(e) e
+  )
+
+  if(inherits(sorted, "error")){
+    cat("Error sorting stacks with dependencies\n")
+    print(sorted)
+    return(ws)
+  }
 
   cat("Restoring stacks in following order:\n")
   print(sorted)
