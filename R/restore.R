@@ -167,7 +167,7 @@ restore_stack_server_recurse <- function(stacks, index){
   if(index > length(stacks))
     return()
 
-  cat("Restoring stack server", attr(stack, "name"), "\n")
+  cat("Restoring stack server", attr(stacks[[index]], "name"), "\n")
   server <- generate_server(stacks[[index]])
 
   observeEvent(server$stack, {
