@@ -110,6 +110,28 @@ handle_add_stack <- function(id, input, session = shiny::getDefaultReactiveDomai
     observeEvent(new_block(), {
       new_blocks(NULL)
     }, priority = -1)
+
+    observeEvent(stack_server$removed, {
+      if(!stack_server$removed)
+        return()
+
+      grid <- input[[sprintf("%s_config", grid_id)]]
+
+      item_id <- ""
+      row_id <- 0L
+      item <- purrr::iwalk(grid$grid[[1]]$items, \(item, index) {
+        if(item$childId == attr(stack, "name")){
+          item_id <<- item$id
+          row_id <<- index
+        }
+      })
+
+      masonry::masonry_remove_item(
+        sprintf("#%s", grid_id),
+        row_index = row_id,
+        item_id = item_id
+      )
+    })
   })
 
   observeEvent(input[[sprintf("%s_config", grid_id)]], {
