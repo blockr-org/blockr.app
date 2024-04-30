@@ -7,8 +7,8 @@ save_conf <- \(env, session, query){
     return()
   }
 
-  if(length(query$locked)){
-    cat("Dashboard locked, not saving\n")
+  if(!length(query$admin) || isFALSE(query$admin)){
+    cat("User is not admin, not saving\n")
     return()
   }
 

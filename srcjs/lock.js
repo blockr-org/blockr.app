@@ -38,6 +38,16 @@ $(() => {
 
   addTab(locked);
 
+  $(document).on("shiny:connected", () => {
+    window.Shiny.setInputValue("href", window.location.href, {
+      priority: "event",
+    });
+  });
+
+  window.Shiny.addCustomMessageHandler("saved", (message) => {
+    $("#link-wrapper").show();
+  });
+
   window.Shiny.addCustomMessageHandler("bind-lock", (_message) => {
     setTimeout(() => {
       $("#lockName").on("keyup", (e) => {
@@ -69,7 +79,9 @@ $(() => {
 
         window.Shiny.setInputValue(
           "save",
-          { title: title },
+          {
+            title: title,
+          },
           { priority: "event" },
         );
       });

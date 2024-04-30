@@ -67,6 +67,12 @@ app_server <- function(input, output, session) {
             "Save"
           )
         )
+      ),
+      div(
+        id = "link-wrapper",
+        style = "display:none;",
+        p("Your dashboard can be shared with:"),
+        verbatimTextOutput("link")
       )
     )
   })
@@ -88,6 +94,11 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$save, {
+    shiny::showNotification(
+      "Saving dashboard...",
+      duration = 3,
+      type = "message"
+    )
     query <- parseQueryString(session$clientData$url_search)
     query$name <- input$save$title
 
@@ -108,9 +119,20 @@ app_server <- function(input, output, session) {
       list(
         name = input$save$title,
         timestamp = ts,
-        user = get_user()
+        user = get_user(),
+        admin = is_admin()
       )
     )
+    shiny::showNotification(
+      "Dashboard saved",
+      duration = 5,
+      type = "message"
+    )
+    session$sendCustomMessage("saved", list())
+  })
+
+  output$link <- renderText({
+    sprintf("%s?name=%s", input$href, input$lockName)
   })
 
   observeEvent(input$admins, {
