@@ -23,6 +23,9 @@ app_server <- function(input, output, session) {
     query <- parseQueryString(session$clientData$url_search)
     admins <- blockr.save::get_admins()
 
+    if(length(get_user()))
+      admins <- c(get_user(), admins)
+
     on.exit({
       session$sendCustomMessage("bind-lock", list())
     })
@@ -111,12 +114,17 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$admins, {
+    admins <- input$admins
+
+    if(length(get_user()))
+      admins <- c(get_user(), admins)
+
     cat(
       "Setting admins to",
       paste0(input$admins, collapse = ", "),
       "\n"
     )
-    blockr.save::set_admins(input$admins)
+    blockr.save::set_admins(admins)
   })
 
   observeEvent(locked(), {
