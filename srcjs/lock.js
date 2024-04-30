@@ -67,7 +67,11 @@ $(() => {
           return;
         }
 
-        window.Shiny.setInputValue("save", { title: title });
+        window.Shiny.setInputValue(
+          "save",
+          { title: title },
+          { priority: "event" },
+        );
       });
     }, 250);
   });
