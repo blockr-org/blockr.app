@@ -203,12 +203,10 @@ reorder_stacks <- function(ws){
 
   if(inherits(sorted, "error")){
     cat("Error sorting stacks with dependencies\n")
-    print(sorted)
     return(ws)
   }
 
   cat("Restoring stacks in following order:\n")
-  print(sorted)
 
   sorted |>
     names() |>

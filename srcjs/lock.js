@@ -45,10 +45,10 @@ $(() => {
           return;
         }
 
-        $("#lock").click();
+        $("#save").click();
       });
 
-      $("#lock").on("click", () => {
+      $("#save").on("click", () => {
         const title = $("#lockName").val();
 
         if (title === "") {
@@ -67,7 +67,7 @@ $(() => {
           return;
         }
 
-        window.Shiny.setInputValue("lock", { title: title });
+        window.Shiny.setInputValue("save", { title: title });
       });
     }, 250);
   });

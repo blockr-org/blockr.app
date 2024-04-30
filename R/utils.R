@@ -13,3 +13,7 @@ new_row_remove_ui <- \(id){
     style = "margin-left:auto;"
   )
 }
+
+get_user <- function(session = shiny::getDefaultReactiveDomain()){
+  session$user
+}

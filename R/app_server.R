@@ -21,49 +21,99 @@ app_server <- function(input, output, session) {
   output$locker <- renderUI({
     if (locked()) return("")
     query <- parseQueryString(session$clientData$url_search)
+    admins <- blockr.save::get_admins()
 
     on.exit({
       session$sendCustomMessage("bind-lock", list())
     })
 
     div(
-      class = "input-group",
-      tags$input(
-        id = "lockName",
-        class = "form-control",
-        placeholder = "Name of the dashboard",
-        value = query$name
-      ),
-      tags$button(
-        id = "lock",
-        class = "btn btn-outline-dark",
-        "Lock"
+      h4("Save"),
+      div(
+        class = "d-flex",
+        div(
+          class = "flex-grow-1",
+          textInput(
+            "lockName",
+            "Dashboard name",
+            placeholder = "Name of the dashboard",
+            value = query$name,
+            width = "100%"
+          )
+        ),
+        div(
+          class = "flex-shrink-1 mx-1",
+          selectizeInput(
+            "admins",
+            "Admins",
+            selected = admins,
+            choices = admins,
+            multiple = TRUE,
+            options = list(
+              create = TRUE,
+              placeholder = "Admins"
+            )
+          )
+        ),
+        div(
+          class = "flex-shrink-1",
+          br(),
+          tags$button(
+            id = "save",
+            class = "btn btn-outline-secondary",
+            "Save"
+          )
+        )
       )
     )
   })
 
   observe({
-    query <- parseQueryString(session$clientData$url_search)
+    user <- get_user()
 
-    if(is.null(query$locked))
+    if(is.null(user))
+      return()
+
+    if(user %in% blockr.save::get_admins())
       return()
     
-    cat("locking dashboard\n")
+    cat("locking dashboard for", user, "\n")
     locked(TRUE)
   })
 
-  observeEvent(input$lock, {
+  observeEvent(input$save, {
     query <- parseQueryString(session$clientData$url_search)
-    query$name <- input$lock$title
-    query$locked <- "true"
+    query$name <- input$save$title
+
     # hacky but requires fix on blockr.save-side
+    # plus difficulties with shiny
     options(query = query)
+
     query <- paste0(names(query), "=", query, collapse = "&") |>
       utils::URLencode()
     updateQueryString(paste0("?", query))
-    locked(TRUE)
     blockr.save::set_blockr()
-    save_conf(blockr.save::get_env(), session, list(name = input$lock$title))
+    blockr.save::set_author(get_user())
+    ts <- as.integer(Sys.time())
+    blockr.save::set_timestamp(ts)
+    save_conf(
+      blockr.save::get_env(),
+      session,
+      list(
+        name = input$save$title,
+        timestamp = ts,
+        user = get_user()
+      )
+    )
+  })
+
+  observeEvent(input$admins, {
+    cat(
+      "Setting admins to",
+      paste0(input$admins, collapse = ", "),
+      "\n"
+    )
+    blockr.save::set_admins(input$admins)
   })
 
   observeEvent(locked(), {
