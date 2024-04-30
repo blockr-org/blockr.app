@@ -74,6 +74,9 @@ app_server <- function(input, output, session) {
     if(is.null(user))
       return()
 
+    if(!length(blockr.save::get_admins()))
+      return()
+
     if(user %in% blockr.save::get_admins())
       return()
     
