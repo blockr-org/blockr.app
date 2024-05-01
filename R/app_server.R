@@ -93,14 +93,14 @@ app_server <- function(input, output, session) {
     locked(TRUE)
   })
 
-  observeEvent(input$save, {
+  observeEvent(input$savethis, {
     shiny::showNotification(
       "Saving dashboard...",
       duration = 3,
       type = "message"
     )
     query <- parseQueryString(session$clientData$url_search)
-    query$name <- input$save$title
+    query$name <- input$savethis$title
 
     # hacky but requires fix on blockr.save-side
     # plus difficulties with shiny
@@ -117,7 +117,7 @@ app_server <- function(input, output, session) {
       blockr.save::get_env(),
       session,
       list(
-        name = input$save$title,
+        name = input$savethis$title,
         timestamp = ts,
         user = get_user(),
         admin = is_admin()

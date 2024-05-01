@@ -78,7 +78,7 @@ $(() => {
         }
 
         window.Shiny.setInputValue(
-          "save",
+          "savethis",
           {
             title: title,
           },
