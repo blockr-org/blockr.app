@@ -1,29 +1,31 @@
 restore_custom <- \(conf, input, output, session = shiny::getDefaultReactiveDomain(), query){
-  i <- 0L
-  all_done <- lapply(conf$tabs$tabs, \(tab) {
-    i <<- i + 1L
-    id <- tab$id
-    grid_id <- sprintf("%sGrid", id)
-    add_id <- sprintf("%sAdd", id)
-    list_id <- sprintf("%sList", id)
+  session$onFlushed(\(){
+    i <- 0L
+    all_done <- lapply(conf$tabs$tabs, \(tab) {
+      i <<- i + 1L
+      id <- tab$id
+      grid_id <- sprintf("%sGrid", id)
+      add_id <- sprintf("%sAdd", id)
+      list_id <- sprintf("%sList", id)
 
-    last <- if(i == length(conf$tabs$tabs)) TRUE else FALSE
+      last <- if(i == length(conf$tabs$tabs)) TRUE else FALSE
 
-    insert_tab_servers(conf, input, output, session)
-    handle_add_stack(id, input, session)
-    restore_tab_stacks(conf, tab, id, list_id, session, last)
-  })
+      insert_tab_servers(conf, input, output, session)
+      handle_add_stack(id, input, session)
+      restore_tab_stacks(conf, tab, id, list_id, session, last)
+    })
 
-  observe({
-    ad <- all_done |>
-      sapply(\(r) r())
+    observe({
+      ad <- all_done |>
+        sapply(\(r) r())
 
-    if(!all(ad))
-      return()
-    
-    cat("All done restorning stacks UIs\n")
-    restore_stacks_server(conf)
-    waiter::waiter_hide()
+      if(!all(ad))
+        return()
+      
+      cat("All done restorning stacks UIs\n")
+      restore_stacks_server(conf)
+      waiter::waiter_hide()
+    })
   })
 }
 
