@@ -161,8 +161,11 @@ restore_stacks_server <- function(conf){
 
   # we should reorder stacks to have them
   # in the order they should be called
-  ws <- reorder_stacks(ws)
-  restore_stack_server_recurse(ws, 1)
+  # ws <- reorder_stacks(ws)
+  #restore_stack_server_recurse(ws, 1)
+  lapply(ws, \(stack){
+    generate_server(stack)
+  })
 }
 
 restore_stack_server_recurse <- function(stacks, index){
