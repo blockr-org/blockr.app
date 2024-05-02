@@ -26,10 +26,6 @@ app_server <- function(input, output, session) {
     if(length(get_user()))
       admins <- c(get_user(), admins)
 
-    on.exit({
-      session$sendCustomMessage("bind-lock", list())
-    })
-
     div(
       h4("Save"),
       div(

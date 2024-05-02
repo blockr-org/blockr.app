@@ -49,44 +49,39 @@ $(() => {
     $("#link-wrapper").show();
   });
 
-  window.Shiny.addCustomMessageHandler("bind-lock", (_message) => {
-    setTimeout(() => {
-      $("#lockName").on("keyup", (e) => {
-        if (e.key != "Enter") {
-          return;
-        }
+  $("body").on("keyup", "#lockName", (e) => {
+    if (e.key != "Enter") {
+      return;
+    }
 
-        $("#save").click();
+    $("#save").click();
+  });
+
+  $("body").on("click", "#save", () => {
+    const title = $("#lockName").val();
+
+    if (title === "") {
+      window.Shiny.notifications.show({
+        html: "Missing title",
+        type: "error",
       });
+      return;
+    }
 
-      $("#save").off("click");
-      $("#save").on("click", () => {
-        const title = $("#lockName").val();
-
-        if (title === "") {
-          window.Shiny.notifications.show({
-            html: "Missing title",
-            type: "error",
-          });
-          return;
-        }
-
-        if (title.includes(" ")) {
-          window.Shiny.notifications.show({
-            html: "Title cannot include spaces",
-            type: "error",
-          });
-          return;
-        }
-
-        window.Shiny.setInputValue(
-          "savethis",
-          {
-            title: title,
-          },
-          { priority: "event" },
-        );
+    if (title.includes(" ")) {
+      window.Shiny.notifications.show({
+        html: "Title cannot include spaces",
+        type: "error",
       });
-    }, 250);
+      return;
+    }
+
+    window.Shiny.setInputValue(
+      "savethis",
+      {
+        title: title,
+      },
+      { priority: "event" },
+    );
   });
 });
