@@ -94,6 +94,7 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$savethis, {
+    cat("Saving dashboard\n")
     shiny::showNotification(
       "Saving dashboard...",
       duration = 3,

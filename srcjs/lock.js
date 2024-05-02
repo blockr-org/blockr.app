@@ -39,7 +39,8 @@ $(() => {
   addTab(locked);
 
   $(document).on("shiny:connected", () => {
-    window.Shiny.setInputValue("href", window.location.href, {
+    const location = window.location.origin + window.location.pathname;
+    window.Shiny.setInputValue("href", location, {
       priority: "event",
     });
   });
@@ -58,6 +59,7 @@ $(() => {
         $("#save").click();
       });
 
+      $("#save").off("click");
       $("#save").on("click", () => {
         const title = $("#lockName").val();
 
